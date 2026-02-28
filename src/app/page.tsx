@@ -124,12 +124,16 @@ export default function Home() {
           </div>
 
           <div className="hero-image relative overflow-hidden lg:min-h-screen" style={{ clipPath: "inset(0)" }}>
-            {/* TODO: Replace with hero video or real photo */}
-            <img
-              src="https://images.unsplash.com/photo-1545558014-8692077e9b5c?w=1200&q=85"
-              alt="Glass curtain wall installation"
+            <video
+              autoPlay
+              muted
+              loop
+              playsInline
+              poster="https://images.unsplash.com/photo-1545558014-8692077e9b5c?w=1200&q=85"
               className="absolute inset-0 w-full h-full object-cover scale-110"
-            />
+            >
+              <source src="/hero-video.mp4" type="video/mp4" />
+            </video>
             <div className="absolute inset-0 bg-navy/20" />
           </div>
         </div>
