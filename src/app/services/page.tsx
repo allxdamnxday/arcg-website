@@ -33,7 +33,7 @@ const services = [
       "Thermally broken frames",
       "High-performance glazing",
     ],
-    image: "https://images.unsplash.com/photo-1545558014-8692077e9b5c?w=800&q=80",
+    image: "/services/window-systems.png",
   },
   {
     title: "Storefront & Entrances",
@@ -46,7 +46,7 @@ const services = [
       "Vestibule assemblies",
       "ADA-compliant hardware",
     ],
-    image: "https://images.unsplash.com/photo-1577495508048-b635879837f1?w=800&q=80",
+    image: "/services/storefront.png",
   },
   {
     title: "Specialty Glazing",
@@ -59,7 +59,7 @@ const services = [
       "Custom architectural features",
       "Point-supported glazing",
     ],
-    image: "https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&q=80",
+    image: "/services/specialty-glazing.png",
   },
   {
     title: "Layout & Coordination",
@@ -72,7 +72,7 @@ const services = [
       "Embed & anchor placement",
       "Tolerance management",
     ],
-    image: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=800&q=80",
+    image: "/services/layout.png",
   },
   {
     title: "QA/QC & Closeout",
@@ -85,7 +85,7 @@ const services = [
       "Punch list management",
       "Closeout documentation",
     ],
-    image: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=800&q=80",
+    image: "/services/qaqc.png",
   },
 ];
 
