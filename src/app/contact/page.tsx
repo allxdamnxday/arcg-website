@@ -155,7 +155,7 @@ export default function ContactPage() {
             <div>
               <h3 className="font-bebas text-2xl text-navy mb-4">License</h3>
               <p className="text-sm text-gray-600">CA Contractor License C17-621340</p>
-              <p className="text-sm text-gray-600">Ironworkers Local 433 · Zone 3</p>
+              <p className="text-sm text-gray-600">Union signatory contractor</p>
             </div>
 
             {/* Map */}

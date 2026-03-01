@@ -11,12 +11,11 @@ gsap.registerPlugin(ScrollTrigger);
 const openings = [
   {
     title: "Journeyman Glazier / Ironworker",
-    type: "Full-Time · Union",
+    type: "Full-Time",
     location: "Los Angeles, CA (Field)",
     description:
-      "Experienced curtain wall and window installers needed for active high-rise projects in the LA area. Must be a current member of Ironworkers Local 433 or willing to join. Minimum 3 years commercial glazing experience.",
+      "Experienced curtain wall and window installers needed for active high-rise projects. Minimum 3 years commercial glazing experience. We work on both union and open-shop projects across the US.",
     requirements: [
-      "Ironworkers Local 433 membership (or eligible)",
       "3+ years commercial glazing experience",
       "Curtain wall installation experience preferred",
       "OSHA 10 certification minimum",
@@ -26,10 +25,10 @@ const openings = [
   },
   {
     title: "Apprentice Glazier",
-    type: "Full-Time · Union Apprenticeship",
+    type: "Full-Time · Apprenticeship",
     location: "Los Angeles, CA (Field)",
     description:
-      "Looking for motivated individuals to join our crew through the Ironworkers Local 433 apprenticeship program. You'll learn curtain wall installation from experienced journeymen while earning full union wages and benefits.",
+      "Looking for motivated individuals to join our crew and learn the trade. You'll learn curtain wall installation from experienced journeymen while earning competitive wages and benefits.",
     requirements: [
       "High school diploma or GED",
       "Physically fit — this is demanding work",
@@ -41,7 +40,7 @@ const openings = [
   },
   {
     title: "Foreman",
-    type: "Full-Time · Union",
+    type: "Full-Time",
     location: "Los Angeles, CA (Field)",
     description:
       "Lead a crew of 4-8 glaziers on commercial projects. Responsible for daily production, quality, safety, and coordination with the GC. You need to know how to read drawings, manage people, and keep a floor moving.",
@@ -79,7 +78,7 @@ export default function CareersPage() {
       <PageHero
         tag="Join The Crew"
         title={"Build The LA\nSkyline With Us"}
-        subtitle="We're always looking for skilled ironworkers who take pride in their work. Union wages, union benefits, real projects."
+        subtitle="We're always looking for skilled glaziers who take pride in their work. Competitive wages, great benefits, real projects."
       />
 
       {/* Why ARCG */}
@@ -89,7 +88,7 @@ export default function CareersPage() {
           <h2 className="font-bebas text-4xl md:text-5xl text-navy mb-6">Why ARCG?</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {[
-              { title: "Union Wages & Benefits", desc: "Full Ironworkers Local 433 package — health insurance, pension, annuity, and vacation fund. Your benefits travel with you." },
+              { title: "Competitive Pay & Benefits", desc: "Strong compensation packages — health insurance, retirement benefits, and paid time off. We take care of our people." },
               { title: "Real Projects", desc: "We work on the biggest buildings in LA. High-rises, landmarks, the kind of work you can point to and say 'I built that.'" },
               { title: "Steady Work", desc: "We maintain a consistent backlog. When one project wraps, the next one is already lined up. No gaps, no scrambling." },
               { title: "Respect", desc: "We treat our crew like professionals because that's what they are. No games, no drama. Show up, do good work, go home safe." },

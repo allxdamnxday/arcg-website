@@ -9,7 +9,7 @@ export const metadata: Metadata = {
     template: "%s | AR Contract Glazing",
   },
   description:
-    "High-rise curtain wall installation, window systems, and specialty glazing in Southern California. Union ironworkers, precision built.",
+    "High-rise curtain wall installation, window systems, and specialty glazing in Southern California. Precision built.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

@@ -20,7 +20,7 @@ export default function Nav() {
   }, [pathname]);
 
   const links = [
-    { href: "/projects", label: "Projects" },
+    // { href: "/projects", label: "Projects" }, // Hidden until media content is ready
     { href: "/services", label: "Services" },
     { href: "/about", label: "About" },
     { href: "/careers", label: "Careers" },

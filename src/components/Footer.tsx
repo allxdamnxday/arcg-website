@@ -10,7 +10,7 @@ export default function Footer() {
           </span>
           <p className="text-sm leading-relaxed max-w-sm">
             Commercial glazing subcontractor specializing in high-rise curtain
-            wall installation. Union proud, precision built. Los Angeles,
+            wall installation. Precision built. Los Angeles,
             California.
           </p>
         </div>
@@ -19,7 +19,6 @@ export default function Footer() {
             Company
           </h4>
           <ul className="space-y-2 text-sm">
-            <li><Link href="/projects" className="hover:text-white transition-colors">Projects</Link></li>
             <li><Link href="/services" className="hover:text-white transition-colors">Services</Link></li>
             <li><Link href="/about" className="hover:text-white transition-colors">About</Link></li>
             <li><Link href="/careers" className="hover:text-white transition-colors">Careers</Link></li>
@@ -33,7 +32,7 @@ export default function Footer() {
             <li><a href="mailto:info@ARCglazing.com" className="hover:text-white transition-colors">info@ARCglazing.com</a></li>
             <li><a href="tel:2132937298" className="hover:text-white transition-colors">(213) 293-7298</a></li>
             <li>726 S Santa Fe #400<br />Los Angeles, CA 90021</li>
-            <li className="pt-2 text-xs text-white/30">CA Lic C17-621340 · Ironworkers Local 433</li>
+            <li className="pt-2 text-xs text-white/30">CA Lic C17-621340</li>
           </ul>
         </div>
       </div>

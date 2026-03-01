@@ -112,13 +112,13 @@ export default function Home() {
             </h1>
             <p className="hero-sub text-lg text-gray-500 max-w-md leading-relaxed mb-10">
               High-rise curtain wall systems, installed with craft.
-              Union ironworkers building the Los Angeles skyline.
+              Skilled glaziers building the Los Angeles skyline.
             </p>
             <Link
-              href="/projects"
+              href="/services"
               className="hero-btn group inline-flex items-center gap-3 text-navy font-semibold text-sm uppercase tracking-widest"
             >
-              <span>View Our Work</span>
+              <span>Our Services</span>
               <span className="w-12 h-px bg-navy group-hover:w-20 transition-all duration-500" />
             </Link>
           </div>
@@ -146,7 +146,7 @@ export default function Home() {
             { num: "10", suffix: "+", label: "Years Experience" },
             { num: "50", suffix: "+", label: "Projects Completed" },
             { num: "500", suffix: "K+", label: "Sq Ft Installed" },
-            { num: "433", suffix: "", label: "Ironworkers Local" },
+            { num: "0", suffix: "", label: "Safety Incidents" },
           ].map((s, i) => (
             <div
               key={i}
@@ -162,8 +162,8 @@ export default function Home() {
         </div>
       </section>
 
-      {/* PROJECTS */}
-      <section ref={projectsRef} className="py-24 md:py-36 px-6 md:px-12 lg:px-20">
+      {/* PROJECTS — hidden until media content is ready */}
+      {/* <section ref={projectsRef} className="py-24 md:py-36 px-6 md:px-12 lg:px-20">
         <div className="flex items-end justify-between mb-16">
           <div>
             <p className="text-xs font-semibold uppercase tracking-[0.2em] text-steel mb-4">Selected Work</p>
@@ -233,6 +233,8 @@ export default function Home() {
           </Link>
         </div>
       </section>
+
+      */}
 
       {/* SERVICES */}
       <section ref={servicesRef} className="py-24 md:py-36 px-6 md:px-12 lg:px-20 bg-navy text-white">

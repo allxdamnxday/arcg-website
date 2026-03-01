@@ -53,9 +53,9 @@ export default function AboutPage() {
                 storefronts — always with the same commitment to quality.
               </p>
               <p>
-                Every member of our field crew is a union ironworker through Local 433. That means
-                trained professionals who take pride in their craft. It&apos;s not just about hanging
-                glass — it&apos;s about building something that lasts.
+                Our field crews are trained professionals who take pride in their craft — whether
+                on union-signatory projects or open-shop work across the country. It&apos;s not just
+                about hanging glass — it&apos;s about building something that lasts.
               </p>
             </div>
           </div>
@@ -118,9 +118,9 @@ export default function AboutPage() {
             <div>
               <h3 className="font-semibold text-navy mb-3">Affiliations</h3>
               <ul className="space-y-2 text-gray-600 text-sm">
-                <li>• International Association of Bridge, Structural, Ornamental & Reinforcing Iron Workers — Local 433</li>
-                <li>• Zone 3 — Los Angeles County</li>
-                <li>• Signatory contractor, full union benefits</li>
+                <li>• Signatory contractor — Ironworkers union</li>
+                <li>• Experienced across union and open-shop projects</li>
+                <li>• Active on projects throughout the United States</li>
               </ul>
             </div>
           </div>
@@ -161,7 +161,7 @@ export default function AboutPage() {
             Want To Work With Us?
           </h2>
           <p className="text-lg text-gray-500 mb-10">
-            Whether you&apos;re a GC looking for a glazing partner or an ironworker looking for a crew — reach out.
+            Whether you&apos;re a GC looking for a glazing partner or a skilled glazier looking for a crew — reach out.
           </p>
           <div className="flex flex-col sm:flex-row gap-4">
             <Link
