@@ -7,6 +7,8 @@ import PageHero from "@/components/PageHero";
 export default function ContactPage() {
   const ref = useRef<HTMLDivElement>(null);
   const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -22,10 +24,36 @@ export default function ContactPage() {
     return () => ctx.revert();
   }, []);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // TODO: Wire up form submission (Formspree, Netlify Forms, or API route)
-    setSubmitted(true);
+    setSubmitting(true);
+    setError(null);
+    const fd = new FormData(e.currentTarget);
+    const payload = {
+      name: fd.get("name"),
+      company: fd.get("company"),
+      email: fd.get("email"),
+      phone: fd.get("phone"),
+      projectType: fd.get("projectType"),
+      message: fd.get("message"),
+      website: fd.get("website"),
+    };
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        throw new Error(data.error || "Something went wrong. Please try again or email info@arcontractglazing.com directly.");
+      }
+      setSubmitted(true);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Something went wrong.");
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -48,6 +76,8 @@ export default function ContactPage() {
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-6">
+                {/* Honeypot — real users leave this blank */}
+                <input type="text" name="website" tabIndex={-1} autoComplete="off" className="hidden" aria-hidden="true" />
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
                     <label className="block text-xs font-semibold uppercase tracking-wider text-silver mb-2">
@@ -55,6 +85,7 @@ export default function ContactPage() {
                     </label>
                     <input
                       type="text"
+                      name="name"
                       required
                       className="w-full border border-glass px-4 py-3 text-sm focus:outline-none focus:border-navy transition-colors bg-transparent"
                       placeholder="Your name"
@@ -66,6 +97,7 @@ export default function ContactPage() {
                     </label>
                     <input
                       type="text"
+                      name="company"
                       className="w-full border border-glass px-4 py-3 text-sm focus:outline-none focus:border-navy transition-colors bg-transparent"
                       placeholder="Company name"
                     />
@@ -78,6 +110,7 @@ export default function ContactPage() {
                     </label>
                     <input
                       type="email"
+                      name="email"
                       required
                       className="w-full border border-glass px-4 py-3 text-sm focus:outline-none focus:border-navy transition-colors bg-transparent"
                       placeholder="email@company.com"
@@ -89,6 +122,7 @@ export default function ContactPage() {
                     </label>
                     <input
                       type="tel"
+                      name="phone"
                       className="w-full border border-glass px-4 py-3 text-sm focus:outline-none focus:border-navy transition-colors bg-transparent"
                       placeholder="(555) 000-0000"
                     />
@@ -98,7 +132,7 @@ export default function ContactPage() {
                   <label className="block text-xs font-semibold uppercase tracking-wider text-silver mb-2">
                     Project Type
                   </label>
-                  <select className="w-full border border-glass px-4 py-3 text-sm focus:outline-none focus:border-navy transition-colors bg-transparent text-gray-700">
+                  <select name="projectType" className="w-full border border-glass px-4 py-3 text-sm focus:outline-none focus:border-navy transition-colors bg-transparent text-gray-700">
                     <option value="">Select a project type</option>
                     <option value="curtain-wall">Curtain Wall</option>
                     <option value="windows">Window Systems</option>
@@ -112,17 +146,22 @@ export default function ContactPage() {
                     Message *
                   </label>
                   <textarea
+                    name="message"
                     required
                     rows={5}
                     className="w-full border border-glass px-4 py-3 text-sm focus:outline-none focus:border-navy transition-colors bg-transparent resize-none"
                     placeholder="Tell us about your project..."
                   />
                 </div>
+                {error && (
+                  <p className="text-sm text-red-600" role="alert">{error}</p>
+                )}
                 <button
                   type="submit"
-                  className="bg-navy text-white px-10 py-4 text-sm font-semibold uppercase tracking-widest hover:bg-steel transition-colors duration-300"
+                  disabled={submitting}
+                  className="bg-navy text-white px-10 py-4 text-sm font-semibold uppercase tracking-widest hover:bg-steel transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  Send Message
+                  {submitting ? "Sending..." : "Send Message"}
                 </button>
               </form>
             )}
@@ -146,8 +185,8 @@ export default function ContactPage() {
                   </a>
                 </p>
                 <p>
-                  <a href="mailto:info@ARCglazing.com" className="text-gray-600 hover:text-navy transition-colors">
-                    info@ARCglazing.com
+                  <a href="mailto:info@arcontractglazing.com" className="text-gray-600 hover:text-navy transition-colors">
+                    info@arcontractglazing.com
                   </a>
                 </p>
               </div>
