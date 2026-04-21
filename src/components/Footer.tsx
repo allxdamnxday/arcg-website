@@ -29,7 +29,7 @@ export default function Footer() {
             Contact
           </h4>
           <ul className="space-y-2 text-sm">
-            <li><a href="mailto:info@ARCglazing.com" className="hover:text-white transition-colors">info@ARCglazing.com</a></li>
+            <li><a href="mailto:info@arcontractglazing.com" className="hover:text-white transition-colors">info@arcontractglazing.com</a></li>
             <li><a href="tel:2132937298" className="hover:text-white transition-colors">(213) 293-7298</a></li>
             <li>726 S Santa Fe #400<br />Los Angeles, CA 90021</li>
             <li className="pt-2 text-xs text-white/30">CA Lic C17-621340</li>

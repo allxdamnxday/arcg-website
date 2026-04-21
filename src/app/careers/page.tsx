@@ -118,7 +118,7 @@ export default function CareersPage() {
                   <p className="text-sm text-steel mt-1">{job.type} · {job.location}</p>
                 </div>
                 <a
-                  href={`mailto:info@ARCglazing.com?subject=Application: ${job.title}`}
+                  href={`mailto:info@arcontractglazing.com?subject=Application: ${job.title}`}
                   className="mt-4 md:mt-0 inline-flex items-center justify-center bg-navy text-white px-6 py-3 text-xs font-semibold uppercase tracking-widest hover:bg-steel transition-colors flex-shrink-0"
                 >
                   Apply Now
@@ -148,7 +148,7 @@ export default function CareersPage() {
           We&apos;re always interested in hearing from skilled glaziers. Send us your info and we&apos;ll keep you in mind.
         </p>
         <a
-          href="mailto:info@ARCglazing.com?subject=General Application"
+          href="mailto:info@arcontractglazing.com?subject=General Application"
           className="inline-flex items-center justify-center bg-white text-navy px-10 py-4 text-sm font-semibold uppercase tracking-widest hover:bg-steel hover:text-white transition-colors duration-300"
         >
           Send Your Info
