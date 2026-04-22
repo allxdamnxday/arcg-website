@@ -12,18 +12,22 @@ export default function AboutPage() {
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const ctx = gsap.context(() => {
-      gsap.utils.toArray<HTMLElement>(".about-reveal").forEach((el) => {
-        gsap.from(el, {
-          opacity: 0,
-          y: 50,
-          duration: 0.8,
-          ease: "power3.out",
-          scrollTrigger: { trigger: el, start: "top 80%" },
+    const mm = gsap.matchMedia();
+    mm.add("(prefers-reduced-motion: no-preference)", () => {
+      const ctx = gsap.context(() => {
+        gsap.utils.toArray<HTMLElement>(".about-reveal").forEach((el) => {
+          gsap.from(el, {
+            opacity: 0,
+            y: 50,
+            duration: 0.8,
+            ease: "power3.out",
+            scrollTrigger: { trigger: el, start: "top 80%" },
+          });
         });
-      });
-    }, ref);
-    return () => ctx.revert();
+      }, ref);
+      return () => ctx.revert();
+    });
+    return () => mm.revert();
   }, []);
 
   return (
@@ -40,7 +44,7 @@ export default function AboutPage() {
           <div className="about-reveal">
             <div className="w-12 h-px bg-navy mb-6" />
             <h2 className="font-bebas text-4xl md:text-5xl text-navy mb-6">Our Story</h2>
-            <div className="space-y-4 text-gray-600 leading-relaxed">
+            <div className="space-y-4 text-base text-gray-600 leading-relaxed">
               <p>
                 AR Contract Glazing was founded by Alfonso Rodriguez with a simple idea: build a
                 glazing company that does the work right, treats its people well, and delivers on

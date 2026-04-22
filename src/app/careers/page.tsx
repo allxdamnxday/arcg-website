@@ -59,18 +59,22 @@ export default function CareersPage() {
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const ctx = gsap.context(() => {
-      gsap.utils.toArray<HTMLElement>(".career-reveal").forEach((el) => {
-        gsap.from(el, {
-          opacity: 0,
-          y: 50,
-          duration: 0.8,
-          ease: "power3.out",
-          scrollTrigger: { trigger: el, start: "top 85%" },
+    const mm = gsap.matchMedia();
+    mm.add("(prefers-reduced-motion: no-preference)", () => {
+      const ctx = gsap.context(() => {
+        gsap.utils.toArray<HTMLElement>(".career-reveal").forEach((el) => {
+          gsap.from(el, {
+            opacity: 0,
+            y: 50,
+            duration: 0.8,
+            ease: "power3.out",
+            scrollTrigger: { trigger: el, start: "top 85%" },
+          });
         });
-      });
-    }, ref);
-    return () => ctx.revert();
+      }, ref);
+      return () => ctx.revert();
+    });
+    return () => mm.revert();
   }, []);
 
   return (
@@ -126,7 +130,7 @@ export default function CareersPage() {
               </div>
               <p className="text-gray-600 text-sm leading-relaxed mb-6">{job.description}</p>
               <div>
-                <p className="text-xs font-semibold uppercase tracking-wider text-silver mb-3">Requirements</p>
+                <p className="text-xs font-semibold uppercase tracking-wider text-silver-dark mb-3">Requirements</p>
                 <ul className="grid grid-cols-1 md:grid-cols-2 gap-2">
                   {job.requirements.map((req, j) => (
                     <li key={j} className="flex items-start gap-2 text-sm text-gray-700">

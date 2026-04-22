@@ -47,7 +47,7 @@ export default function Nav() {
             }}
           />
           <span className="font-bebas text-xl tracking-wider text-navy hidden sm:block">
-            AR CONTRACT <span className="text-silver">GLAZING</span>
+            AR CONTRACT <span className="text-silver-dark">GLAZING</span>
           </span>
         </Link>
 

@@ -93,18 +93,22 @@ export default function ServicesPage() {
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const ctx = gsap.context(() => {
-      gsap.utils.toArray<HTMLElement>(".svc-block").forEach((block) => {
-        gsap.from(block, {
-          opacity: 0,
-          y: 60,
-          duration: 0.8,
-          ease: "power3.out",
-          scrollTrigger: { trigger: block, start: "top 80%" },
+    const mm = gsap.matchMedia();
+    mm.add("(prefers-reduced-motion: no-preference)", () => {
+      const ctx = gsap.context(() => {
+        gsap.utils.toArray<HTMLElement>(".svc-block").forEach((block) => {
+          gsap.from(block, {
+            opacity: 0,
+            y: 60,
+            duration: 0.8,
+            ease: "power3.out",
+            scrollTrigger: { trigger: block, start: "top 80%" },
+          });
         });
-      });
-    }, ref);
-    return () => ctx.revert();
+      }, ref);
+      return () => ctx.revert();
+    });
+    return () => mm.revert();
   }, []);
 
   return (

@@ -13,14 +13,18 @@ export default function PageHero({ tag, title, subtitle }: PageHeroProps) {
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const ctx = gsap.context(() => {
-      const tl = gsap.timeline();
-      tl.from(".page-hero-line", { width: 0, duration: 1, ease: "power4.inOut" })
-        .from(".page-hero-tag", { opacity: 0, y: 20, duration: 0.6 }, "-=0.5")
-        .from(".page-hero-title span", { y: 80, opacity: 0, duration: 0.8, stagger: 0.1, ease: "power4.out" }, "-=0.3")
-        .from(".page-hero-sub", { opacity: 0, y: 20, duration: 0.6 }, "-=0.2");
-    }, ref);
-    return () => ctx.revert();
+    const mm = gsap.matchMedia();
+    mm.add("(prefers-reduced-motion: no-preference)", () => {
+      const ctx = gsap.context(() => {
+        const tl = gsap.timeline();
+        tl.from(".page-hero-line", { width: 0, duration: 1, ease: "power4.inOut" })
+          .from(".page-hero-tag", { opacity: 0, y: 20, duration: 0.6 }, "-=0.5")
+          .from(".page-hero-title span", { y: 80, opacity: 0, duration: 0.8, stagger: 0.1, ease: "power4.out" }, "-=0.3")
+          .from(".page-hero-sub", { opacity: 0, y: 20, duration: 0.6 }, "-=0.2");
+      }, ref);
+      return () => ctx.revert();
+    });
+    return () => mm.revert();
   }, []);
 
   return (
