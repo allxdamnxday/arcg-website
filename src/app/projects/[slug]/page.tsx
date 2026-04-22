@@ -13,15 +13,19 @@ export default function ProjectDetail() {
 
   useEffect(() => {
     if (!project) return;
-    const ctx = gsap.context(() => {
-      const tl = gsap.timeline();
-      tl.from(".detail-image", { clipPath: "inset(100% 0 0 0)", duration: 1.4, ease: "power4.inOut" })
-        .from(".detail-tag", { opacity: 0, y: 20, duration: 0.6 }, "-=0.6")
-        .from(".detail-title", { opacity: 0, y: 40, duration: 0.8 }, "-=0.4")
-        .from(".detail-stat", { opacity: 0, y: 30, stagger: 0.1, duration: 0.6 }, "-=0.4")
-        .from(".detail-body", { opacity: 0, y: 30, duration: 0.8 }, "-=0.3");
-    }, ref);
-    return () => ctx.revert();
+    const mm = gsap.matchMedia();
+    mm.add("(prefers-reduced-motion: no-preference)", () => {
+      const ctx = gsap.context(() => {
+        const tl = gsap.timeline();
+        tl.from(".detail-image", { clipPath: "inset(100% 0 0 0)", duration: 1.4, ease: "power4.inOut" })
+          .from(".detail-tag", { opacity: 0, y: 20, duration: 0.6 }, "-=0.6")
+          .from(".detail-title", { opacity: 0, y: 40, duration: 0.8 }, "-=0.4")
+          .from(".detail-stat", { opacity: 0, y: 30, stagger: 0.1, duration: 0.6 }, "-=0.4")
+          .from(".detail-body", { opacity: 0, y: 30, duration: 0.8 }, "-=0.3");
+      }, ref);
+      return () => ctx.revert();
+    });
+    return () => mm.revert();
   }, [project]);
 
   if (!project) {
@@ -73,7 +77,7 @@ export default function ProjectDetail() {
               className="detail-stat px-6 md:px-10 py-8 text-center border-r border-glass last:border-r-0"
             >
               <div className="font-bebas text-3xl text-navy mb-1">{stat.value}</div>
-              <div className="text-xs font-medium uppercase tracking-[0.15em] text-silver">
+              <div className="text-xs font-medium uppercase tracking-[0.15em] text-silver-dark">
                 {stat.label}
               </div>
             </div>
@@ -104,11 +108,11 @@ export default function ProjectDetail() {
         <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
           {[1, 2, 3, 4, 5, 6].map((n) => (
             <div key={n} className="aspect-[4/3] bg-glass rounded-sm flex items-center justify-center">
-              <span className="text-silver text-sm">Photo {n}</span>
+              <span className="text-silver-dark text-sm">Photo {n}</span>
             </div>
           ))}
         </div>
-        <p className="text-sm text-silver mt-6 text-center">Project photography coming soon</p>
+        <p className="text-sm text-silver-dark mt-6 text-center">Project photography coming soon</p>
       </section>
 
       {/* Navigation */}
@@ -119,7 +123,7 @@ export default function ProjectDetail() {
               href={`/projects/${prevProject.slug}`}
               className="px-6 md:px-12 py-10 hover:bg-warm transition-colors group"
             >
-              <p className="text-xs font-semibold uppercase tracking-[0.15em] text-silver mb-2">
+              <p className="text-xs font-semibold uppercase tracking-[0.15em] text-silver-dark mb-2">
                 ← Previous
               </p>
               <p className="font-bebas text-xl md:text-2xl text-navy group-hover:text-steel transition-colors">
@@ -134,7 +138,7 @@ export default function ProjectDetail() {
               href={`/projects/${nextProject.slug}`}
               className="px-6 md:px-12 py-10 text-right border-l border-glass hover:bg-warm transition-colors group"
             >
-              <p className="text-xs font-semibold uppercase tracking-[0.15em] text-silver mb-2">
+              <p className="text-xs font-semibold uppercase tracking-[0.15em] text-silver-dark mb-2">
                 Next →
               </p>
               <p className="font-bebas text-xl md:text-2xl text-navy group-hover:text-steel transition-colors">

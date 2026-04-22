@@ -10,88 +10,91 @@ gsap.registerPlugin(ScrollTrigger);
 export default function Home() {
   const heroRef = useRef<HTMLDivElement>(null);
   const statsRef = useRef<HTMLDivElement>(null);
-  const projectsRef = useRef<HTMLDivElement>(null);
+  const workRef = useRef<HTMLDivElement>(null);
   const servicesRef = useRef<HTMLDivElement>(null);
   const ctaRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const ctx = gsap.context(() => {
-      // Hero entrance
-      const tl = gsap.timeline();
-      tl.from(".hero-line", { width: 0, duration: 1.2, ease: "power4.inOut" })
-        .from(".hero-tag", { opacity: 0, y: 20, duration: 0.8 }, "-=0.6")
-        .from(".hero-title span", { y: 120, opacity: 0, duration: 1, stagger: 0.15, ease: "power4.out" }, "-=0.4")
-        .from(".hero-sub", { opacity: 0, y: 20, duration: 0.8 }, "-=0.4")
-        .from(".hero-btn", { opacity: 0, y: 20, duration: 0.6 }, "-=0.3")
-        .from(".hero-image", { clipPath: "inset(100% 0 0 0)", duration: 1.4, ease: "power4.inOut" }, "-=1.2");
+    const mm = gsap.matchMedia();
 
-      // Stats counter
-      gsap.from(".stat-num", {
-        textContent: 0,
-        duration: 2,
-        ease: "power2.out",
-        snap: { textContent: 1 },
-        scrollTrigger: { trigger: statsRef.current, start: "top 80%" },
-      });
+    mm.add("(prefers-reduced-motion: no-preference)", () => {
+      const ctx = gsap.context(() => {
+        // Hero entrance
+        const tl = gsap.timeline();
+        tl.from(".hero-line", { width: 0, duration: 1.2, ease: "power4.inOut" })
+          .from(".hero-tag", { opacity: 0, y: 20, duration: 0.8 }, "-=0.6")
+          .from(".hero-title span", { y: 120, opacity: 0, duration: 1, stagger: 0.15, ease: "power4.out" }, "-=0.4")
+          .from(".hero-sub", { opacity: 0, y: 20, duration: 0.8 }, "-=0.4")
+          .from(".hero-btn", { opacity: 0, y: 20, duration: 0.6, stagger: 0.1 }, "-=0.3")
+          .from(".hero-image", { clipPath: "inset(100% 0 0 0)", duration: 1.4, ease: "power4.inOut" }, "-=1.2");
 
-      gsap.from(".stat-item", {
-        opacity: 0, y: 60, stagger: 0.15, duration: 0.8,
-        ease: "power3.out",
-        scrollTrigger: { trigger: statsRef.current, start: "top 80%" },
-      });
+        // Stats counter
+        gsap.from(".stat-num", {
+          textContent: 0,
+          duration: 2,
+          ease: "power2.out",
+          snap: { textContent: 1 },
+          scrollTrigger: { trigger: statsRef.current, start: "top 80%" },
+        });
 
-      // Project cards
-      gsap.utils.toArray<HTMLElement>(".project-card").forEach((card) => {
-        gsap.from(card, {
-          opacity: 0, y: 100, duration: 1,
+        gsap.from(".stat-item", {
+          opacity: 0, y: 60, stagger: 0.15, duration: 0.8,
           ease: "power3.out",
-          scrollTrigger: { trigger: card, start: "top 85%" },
+          scrollTrigger: { trigger: statsRef.current, start: "top 80%" },
         });
-        const img = card.querySelector("img");
-        if (img) {
-          gsap.to(img, {
-            yPercent: -15,
-            ease: "none",
-            scrollTrigger: { trigger: card, start: "top bottom", end: "bottom top", scrub: true },
+
+        // Credentials strip reveal
+        gsap.from(".cred-item", {
+          opacity: 0, y: 20, stagger: 0.08, duration: 0.6,
+          ease: "power3.out",
+          scrollTrigger: { trigger: ".cred-strip", start: "top 85%" },
+        });
+
+        // Selected work text cards
+        gsap.from(".work-card", {
+          opacity: 0, y: 60, stagger: 0.12, duration: 0.8,
+          ease: "power3.out",
+          scrollTrigger: { trigger: workRef.current, start: "top 80%" },
+        });
+
+        // Section titles
+        gsap.utils.toArray<HTMLElement>(".section-reveal").forEach((el) => {
+          gsap.from(el, {
+            clipPath: "inset(0 100% 0 0)",
+            duration: 1.2,
+            ease: "power4.inOut",
+            scrollTrigger: { trigger: el, start: "top 80%" },
           });
-        }
-      });
+        });
 
-      // Section titles
-      gsap.utils.toArray<HTMLElement>(".section-reveal").forEach((el) => {
-        gsap.from(el, {
-          clipPath: "inset(0 100% 0 0)",
-          duration: 1.2,
-          ease: "power4.inOut",
-          scrollTrigger: { trigger: el, start: "top 80%" },
+        // Service cards
+        gsap.from(".service-card", {
+          opacity: 0, y: 60, stagger: 0.1, duration: 0.8,
+          ease: "power3.out",
+          scrollTrigger: { trigger: servicesRef.current, start: "top 70%" },
+        });
+
+        // Horizontal lines
+        gsap.utils.toArray<HTMLElement>(".h-line").forEach((line) => {
+          gsap.from(line, {
+            scaleX: 0,
+            duration: 1.2,
+            ease: "power4.inOut",
+            scrollTrigger: { trigger: line, start: "top 85%" },
+          });
+        });
+
+        // CTA
+        gsap.from(".cta-content > *", {
+          opacity: 0, y: 50, stagger: 0.15, duration: 0.8,
+          scrollTrigger: { trigger: ctaRef.current, start: "top 75%" },
         });
       });
 
-      // Service cards
-      gsap.from(".service-card", {
-        opacity: 0, y: 60, stagger: 0.1, duration: 0.8,
-        ease: "power3.out",
-        scrollTrigger: { trigger: servicesRef.current, start: "top 70%" },
-      });
-
-      // Horizontal lines
-      gsap.utils.toArray<HTMLElement>(".h-line").forEach((line) => {
-        gsap.from(line, {
-          scaleX: 0,
-          duration: 1.2,
-          ease: "power4.inOut",
-          scrollTrigger: { trigger: line, start: "top 85%" },
-        });
-      });
-
-      // CTA
-      gsap.from(".cta-content > *", {
-        opacity: 0, y: 50, stagger: 0.15, duration: 0.8,
-        scrollTrigger: { trigger: ctaRef.current, start: "top 75%" },
-      });
+      return () => ctx.revert();
     });
 
-    return () => ctx.revert();
+    return () => mm.revert();
   }, []);
 
   return (
@@ -110,17 +113,24 @@ export default function Home() {
               <span className="block">Glass At</span>
               <span className="block">Every Level</span>
             </h1>
-            <p className="hero-sub text-lg text-gray-500 max-w-md leading-relaxed mb-10">
+            <p className="hero-sub text-lg text-gray-600 max-w-md leading-relaxed mb-10">
               High-rise curtain wall systems, installed with craft.
               Skilled glaziers building the Los Angeles skyline.
             </p>
-            <Link
-              href="/services"
-              className="hero-btn group inline-flex items-center gap-3 text-navy font-semibold text-sm uppercase tracking-widest"
-            >
-              <span>Our Services</span>
-              <span className="w-12 h-px bg-navy group-hover:w-20 transition-all duration-500" />
-            </Link>
+            <div className="flex flex-col sm:flex-row gap-4">
+              <Link
+                href="/contact"
+                className="hero-btn inline-flex items-center justify-center bg-navy text-white px-10 py-4 text-sm font-semibold uppercase tracking-widest hover:bg-steel transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy/40 focus-visible:ring-offset-2"
+              >
+                Request a Bid
+              </Link>
+              <Link
+                href="/services"
+                className="hero-btn inline-flex items-center justify-center border-2 border-navy text-navy px-10 py-4 text-sm font-semibold uppercase tracking-widest hover:bg-navy hover:text-white transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy/40 focus-visible:ring-offset-2"
+              >
+                Our Services
+              </Link>
+            </div>
           </div>
 
           <div className="hero-image relative overflow-hidden lg:min-h-screen" style={{ clipPath: "inset(0)" }}>
@@ -156,91 +166,88 @@ export default function Home() {
                 <span className="stat-num">{s.num}</span>
                 {s.suffix}
               </div>
-              <div className="text-xs font-medium uppercase tracking-[0.15em] text-silver">{s.label}</div>
+              <div className="text-xs font-medium uppercase tracking-[0.15em] text-silver-dark">{s.label}</div>
             </div>
           ))}
         </div>
       </section>
 
-      {/* PROJECTS — hidden until media content is ready */}
-      {/* <section ref={projectsRef} className="py-24 md:py-36 px-6 md:px-12 lg:px-20">
-        <div className="flex items-end justify-between mb-16">
-          <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-steel mb-4">Selected Work</p>
-            <h2 className="section-reveal font-bebas text-[clamp(40px,5vw,72px)] text-navy leading-none">
-              Featured Projects
-            </h2>
-          </div>
-          <div className="hidden md:block">
-            <Link
-              href="/projects"
-              className="text-sm font-semibold text-navy uppercase tracking-widest hover:text-steel transition-colors flex items-center gap-2"
-            >
-              All Projects <span className="w-8 h-px bg-current" />
-            </Link>
-          </div>
-        </div>
-
-        <div className="h-line h-px bg-glass w-full origin-left mb-16" />
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
-          <Link href="/projects/hollywood-park-hotel" className="project-card md:col-span-2 group relative overflow-hidden rounded-sm cursor-pointer aspect-[21/9] block">
-            <img
-              src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1400&q=85"
-              alt="Hollywood Park Hotel"
-              className="absolute inset-0 w-full h-[120%] object-cover group-hover:scale-105 transition-transform duration-700"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
-            <div className="absolute bottom-0 left-0 p-8 md:p-12">
-              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-silver mb-2">
-                Clayco · Inglewood, CA
-              </p>
-              <h3 className="font-bebas text-4xl md:text-6xl text-white">Hollywood Park Hotel</h3>
-              <p className="text-sm text-white/60 mt-2 max-w-md">
-                12-story curtain wall system — 5,000+ units across all elevations. Our flagship project.
-              </p>
-            </div>
-          </Link>
-
-          <Link href="/projects/david-yurman" className="project-card group relative overflow-hidden rounded-sm cursor-pointer aspect-[4/3] block">
-            <img
-              src="https://images.unsplash.com/photo-1577495508048-b635879837f1?w=800&q=85"
-              alt="David Yurman"
-              className="absolute inset-0 w-full h-[120%] object-cover group-hover:scale-105 transition-transform duration-700"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
-            <div className="absolute bottom-0 left-0 p-6 md:p-8">
-              <p className="text-xs font-semibold uppercase tracking-[0.15em] text-silver mb-2">
-                Bellapart · Beverly Hills
-              </p>
-              <h3 className="font-bebas text-3xl md:text-4xl text-white">David Yurman Flagship</h3>
-            </div>
-          </Link>
-
-          <Link href="/projects/mixed-use-tower" className="project-card group relative overflow-hidden rounded-sm cursor-pointer aspect-[4/3] block">
-            <img
-              src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&q=85"
-              alt="Commercial Tower"
-              className="absolute inset-0 w-full h-[120%] object-cover group-hover:scale-105 transition-transform duration-700"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
-            <div className="absolute bottom-0 left-0 p-6 md:p-8">
-              <p className="text-xs font-semibold uppercase tracking-[0.15em] text-silver mb-2">
-                Ventana DBS · Los Angeles
-              </p>
-              <h3 className="font-bebas text-3xl md:text-4xl text-white">Mixed-Use Tower</h3>
-            </div>
-          </Link>
+      {/* CREDENTIALS STRIP */}
+      <section className="cred-strip border-b border-glass bg-warm">
+        <div className="px-6 md:px-12 lg:px-20 py-6 flex flex-wrap items-center justify-center gap-x-8 gap-y-3 text-xs font-semibold uppercase tracking-[0.15em] text-silver-dark">
+          <span className="cred-item">California C17-621340</span>
+          <span className="hidden sm:inline text-glass">·</span>
+          <span className="cred-item">Union Signatory</span>
+          <span className="hidden sm:inline text-glass">·</span>
+          <span className="cred-item">10+ Years</span>
+          <span className="hidden sm:inline text-glass">·</span>
+          <span className="cred-item">Based in Los Angeles</span>
         </div>
       </section>
 
-      */}
+      {/* SELECTED WORK — text-only until photos are ready */}
+      <section ref={workRef} className="py-24 md:py-32 px-6 md:px-12 lg:px-20">
+        <div className="flex items-end justify-between mb-12">
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-steel mb-4">Selected Work</p>
+            <h2 className="section-reveal font-bebas text-[clamp(40px,5vw,72px)] text-navy leading-none">
+              Recent Projects
+            </h2>
+          </div>
+        </div>
+
+        <div className="h-line h-px bg-glass w-full origin-left mb-12" />
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-glass">
+          {[
+            {
+              title: "Hollywood Park Hotel",
+              client: "Clayco",
+              location: "Inglewood, CA",
+              scope: "12-Story Curtain Wall",
+              year: "2024 – Present",
+              status: "Active",
+            },
+            {
+              title: "David Yurman Flagship",
+              client: "Bellapart",
+              location: "Beverly Hills, CA",
+              scope: "Specialty Storefront",
+              year: "2024",
+              status: "Complete",
+            },
+            {
+              title: "Mixed-Use Tower",
+              client: "Ventana DBS",
+              location: "Los Angeles, CA",
+              scope: "Curtain Wall & Windows",
+              year: "2023",
+              status: "Complete",
+            },
+          ].map((p, i) => (
+            <div key={i} className="work-card bg-white p-8 md:p-10 flex flex-col">
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-steel mb-4">
+                {p.client} · {p.location}
+              </p>
+              <h3 className="font-bebas text-3xl md:text-4xl text-navy leading-[0.95] mb-6">{p.title}</h3>
+              <div className="mt-auto pt-6 border-t border-glass text-sm text-gray-600 space-y-1">
+                <p>{p.scope}</p>
+                <p className="text-silver-dark">{p.year} · {p.status}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <p className="text-sm text-silver-dark mt-8 text-center md:text-left">
+          Full project gallery coming soon.
+        </p>
+      </section>
 
       {/* SERVICES */}
       <section ref={servicesRef} className="py-24 md:py-36 px-6 md:px-12 lg:px-20 bg-navy text-white">
         <p className="text-xs font-semibold uppercase tracking-[0.2em] text-steel mb-4">Capabilities</p>
         <h2 className="section-reveal font-bebas text-[clamp(40px,5vw,72px)] leading-none mb-6">What We Do</h2>
-        <p className="text-lg text-white/50 max-w-lg mb-16">
+        <p className="text-lg text-white/60 max-w-lg mb-16">
           Full-service commercial glazing. One crew, one point of contact, from layout to final punch.
         </p>
         <div className="h-line h-px bg-white/10 w-full origin-left mb-16" />
@@ -256,8 +263,8 @@ export default function Home() {
           ].map((s, i) => (
             <div key={i} className="service-card bg-navy p-8 md:p-10 group hover:bg-white/5 transition-colors duration-500">
               <div className="w-10 h-px bg-steel mb-6 group-hover:w-16 transition-all duration-500" />
-              <h3 className="text-xl font-semibold mb-3">{s.title}</h3>
-              <p className="text-sm text-white/50 leading-relaxed">{s.desc}</p>
+              <h3 className="font-bebas text-2xl md:text-3xl mb-3 leading-none">{s.title}</h3>
+              <p className="text-sm text-white/60 leading-relaxed">{s.desc}</p>
             </div>
           ))}
         </div>
@@ -265,7 +272,7 @@ export default function Home() {
         <div className="mt-12 text-center">
           <Link
             href="/services"
-            className="inline-flex items-center gap-3 text-white font-semibold text-sm uppercase tracking-widest hover:text-steel transition-colors"
+            className="inline-flex items-center gap-3 text-white font-semibold text-sm uppercase tracking-widest hover:text-steel transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40 focus-visible:ring-offset-2 focus-visible:ring-offset-navy"
           >
             <span>View All Services</span>
             <span className="w-8 h-px bg-current" />
@@ -283,19 +290,19 @@ export default function Home() {
             <br />
             Something Notable
           </h2>
-          <p className="text-lg text-gray-500 max-w-md mb-10 leading-relaxed">
+          <p className="text-lg text-gray-600 max-w-md mb-10 leading-relaxed">
             Whether you&apos;re a GC bidding a tower or a developer planning a landmark — we should talk.
           </p>
           <div className="flex flex-col sm:flex-row gap-4">
             <Link
               href="/contact"
-              className="inline-flex items-center justify-center bg-navy text-white px-10 py-4 text-sm font-semibold uppercase tracking-widest hover:bg-steel transition-colors duration-300"
+              className="inline-flex items-center justify-center bg-navy text-white px-10 py-4 text-sm font-semibold uppercase tracking-widest hover:bg-steel transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy/40 focus-visible:ring-offset-2"
             >
               Get In Touch
             </Link>
             <a
               href="tel:2132937298"
-              className="inline-flex items-center justify-center border-2 border-navy text-navy px-10 py-4 text-sm font-semibold uppercase tracking-widest hover:bg-navy hover:text-white transition-all duration-300"
+              className="inline-flex items-center justify-center border-2 border-navy text-navy px-10 py-4 text-sm font-semibold uppercase tracking-widest hover:bg-navy hover:text-white transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy/40 focus-visible:ring-offset-2"
             >
               (213) 293-7298
             </a>

@@ -11,17 +11,21 @@ export default function ContactPage() {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const ctx = gsap.context(() => {
-      gsap.from(".contact-reveal", {
-        opacity: 0,
-        y: 40,
-        stagger: 0.1,
-        duration: 0.8,
-        ease: "power3.out",
-        delay: 0.3,
-      });
-    }, ref);
-    return () => ctx.revert();
+    const mm = gsap.matchMedia();
+    mm.add("(prefers-reduced-motion: no-preference)", () => {
+      const ctx = gsap.context(() => {
+        gsap.from(".contact-reveal", {
+          opacity: 0,
+          y: 40,
+          stagger: 0.1,
+          duration: 0.8,
+          ease: "power3.out",
+          delay: 0.3,
+        });
+      }, ref);
+      return () => ctx.revert();
+    });
+    return () => mm.revert();
   }, []);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -80,7 +84,7 @@ export default function ContactPage() {
                 <input type="text" name="website" tabIndex={-1} autoComplete="off" className="hidden" aria-hidden="true" />
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
-                    <label className="block text-xs font-semibold uppercase tracking-wider text-silver mb-2">
+                    <label className="block text-xs font-semibold uppercase tracking-wider text-silver-dark mb-2">
                       Name *
                     </label>
                     <input
@@ -92,7 +96,7 @@ export default function ContactPage() {
                     />
                   </div>
                   <div>
-                    <label className="block text-xs font-semibold uppercase tracking-wider text-silver mb-2">
+                    <label className="block text-xs font-semibold uppercase tracking-wider text-silver-dark mb-2">
                       Company
                     </label>
                     <input
@@ -105,7 +109,7 @@ export default function ContactPage() {
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
-                    <label className="block text-xs font-semibold uppercase tracking-wider text-silver mb-2">
+                    <label className="block text-xs font-semibold uppercase tracking-wider text-silver-dark mb-2">
                       Email *
                     </label>
                     <input
@@ -117,7 +121,7 @@ export default function ContactPage() {
                     />
                   </div>
                   <div>
-                    <label className="block text-xs font-semibold uppercase tracking-wider text-silver mb-2">
+                    <label className="block text-xs font-semibold uppercase tracking-wider text-silver-dark mb-2">
                       Phone
                     </label>
                     <input
@@ -129,7 +133,7 @@ export default function ContactPage() {
                   </div>
                 </div>
                 <div>
-                  <label className="block text-xs font-semibold uppercase tracking-wider text-silver mb-2">
+                  <label className="block text-xs font-semibold uppercase tracking-wider text-silver-dark mb-2">
                     Project Type
                   </label>
                   <select name="projectType" className="w-full border border-glass px-4 py-3 text-sm focus:outline-none focus:border-navy transition-colors bg-transparent text-gray-700">
@@ -142,7 +146,7 @@ export default function ContactPage() {
                   </select>
                 </div>
                 <div>
-                  <label className="block text-xs font-semibold uppercase tracking-wider text-silver mb-2">
+                  <label className="block text-xs font-semibold uppercase tracking-wider text-silver-dark mb-2">
                     Message *
                   </label>
                   <textarea
