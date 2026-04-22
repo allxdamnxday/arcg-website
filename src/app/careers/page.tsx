@@ -1,10 +1,11 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import Link from "next/link";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import PageHero from "@/components/PageHero";
+import Button from "@/components/Button";
+import Section from "@/components/Section";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -121,12 +122,13 @@ export default function CareersPage() {
                   <h3 className="font-bebas text-2xl md:text-3xl text-navy">{job.title}</h3>
                   <p className="text-sm text-steel mt-1">{job.type} · {job.location}</p>
                 </div>
-                <a
+                <Button
                   href={`mailto:info@arcontractglazing.com?subject=Application: ${job.title}`}
-                  className="mt-4 md:mt-0 inline-flex items-center justify-center bg-navy text-white px-6 py-3 text-xs font-semibold uppercase tracking-widest hover:bg-steel transition-colors flex-shrink-0"
+                  size="sm"
+                  className="mt-4 md:mt-0 flex-shrink-0"
                 >
                   Apply Now
-                </a>
+                </Button>
               </div>
               <p className="text-gray-600 text-sm leading-relaxed mb-6">{job.description}</p>
               <div>
@@ -146,18 +148,15 @@ export default function CareersPage() {
       </section>
 
       {/* General Application */}
-      <section className="py-24 md:py-32 px-6 md:px-12 lg:px-20 bg-navy text-white text-center">
+      <Section size="lg" tone="navy" className="text-center">
         <h2 className="font-bebas text-[clamp(40px,5vw,64px)] mb-4">Don&apos;t See Your Role?</h2>
-        <p className="text-white/50 max-w-md mx-auto mb-10">
+        <p className="text-white/60 max-w-md mx-auto mb-10">
           We&apos;re always interested in hearing from skilled glaziers. Send us your info and we&apos;ll keep you in mind.
         </p>
-        <a
-          href="mailto:info@arcontractglazing.com?subject=General Application"
-          className="inline-flex items-center justify-center bg-white text-navy px-10 py-4 text-sm font-semibold uppercase tracking-widest hover:bg-steel hover:text-white transition-colors duration-300"
-        >
+        <Button href="mailto:info@arcontractglazing.com?subject=General Application" variant="white">
           Send Your Info
-        </a>
-      </section>
+        </Button>
+      </Section>
     </main>
   );
 }

@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import PageHero from "@/components/PageHero";
+import Button from "@/components/Button";
 
 export default function ContactPage() {
   const ref = useRef<HTMLDivElement>(null);
@@ -160,13 +161,9 @@ export default function ContactPage() {
                 {error && (
                   <p className="text-sm text-red-600" role="alert">{error}</p>
                 )}
-                <button
-                  type="submit"
-                  disabled={submitting}
-                  className="bg-navy text-white px-10 py-4 text-sm font-semibold uppercase tracking-widest hover:bg-steel transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
-                >
+                <Button type="submit" loading={submitting}>
                   {submitting ? "Sending..." : "Send Message"}
-                </button>
+                </Button>
               </form>
             )}
           </div>

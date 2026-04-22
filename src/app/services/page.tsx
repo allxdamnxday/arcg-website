@@ -1,10 +1,11 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import Link from "next/link";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import PageHero from "@/components/PageHero";
+import Button from "@/components/Button";
+import Section from "@/components/Section";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -152,18 +153,13 @@ export default function ServicesPage() {
       </section>
 
       {/* CTA */}
-      <section className="py-24 md:py-32 px-6 md:px-12 lg:px-20 bg-navy text-white text-center">
+      <Section size="lg" tone="navy" className="text-center">
         <h2 className="font-bebas text-[clamp(40px,5vw,64px)] mb-4">Need A Glazing Partner?</h2>
-        <p className="text-white/50 max-w-md mx-auto mb-10">
+        <p className="text-white/60 max-w-md mx-auto mb-10">
           We&apos;re always looking for the next great project. Let&apos;s talk scope.
         </p>
-        <Link
-          href="/contact"
-          className="inline-flex items-center justify-center bg-white text-navy px-10 py-4 text-sm font-semibold uppercase tracking-widest hover:bg-steel hover:text-white transition-colors duration-300"
-        >
-          Get In Touch
-        </Link>
-      </section>
+        <Button href="/contact" variant="white">Get In Touch</Button>
+      </Section>
     </main>
   );
 }
