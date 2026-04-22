@@ -125,7 +125,7 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="hero-image relative overflow-hidden lg:min-h-screen" style={{ clipPath: "inset(0)" }}>
+          <div className="hero-image relative overflow-hidden min-h-[60vh] lg:min-h-screen" style={{ clipPath: "inset(0)" }}>
             <video
               autoPlay
               muted
@@ -136,7 +136,7 @@ export default function Home() {
             >
               <source src="/hero-video.mp4" type="video/mp4" />
             </video>
-            <div className="absolute inset-0 bg-navy/20" />
+            <div className="absolute inset-0 bg-navy/35" />
           </div>
         </div>
       </section>
