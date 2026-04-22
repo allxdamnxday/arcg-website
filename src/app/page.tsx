@@ -4,6 +4,8 @@ import { useEffect, useRef } from "react";
 import Link from "next/link";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import Button from "@/components/Button";
+import SectionHeader from "@/components/SectionHeader";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -118,18 +120,8 @@ export default function Home() {
               Skilled glaziers building the Los Angeles skyline.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
-              <Link
-                href="/contact"
-                className="hero-btn inline-flex items-center justify-center bg-navy text-white px-10 py-4 text-sm font-semibold uppercase tracking-widest hover:bg-steel transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy/40 focus-visible:ring-offset-2"
-              >
-                Request a Bid
-              </Link>
-              <Link
-                href="/services"
-                className="hero-btn inline-flex items-center justify-center border-2 border-navy text-navy px-10 py-4 text-sm font-semibold uppercase tracking-widest hover:bg-navy hover:text-white transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy/40 focus-visible:ring-offset-2"
-              >
-                Our Services
-              </Link>
+              <Button href="/contact" className="hero-btn">Request a Bid</Button>
+              <Button href="/services" variant="ghost" className="hero-btn">Our Services</Button>
             </div>
           </div>
 
@@ -187,14 +179,7 @@ export default function Home() {
 
       {/* SELECTED WORK — text-only until photos are ready */}
       <section ref={workRef} className="py-24 md:py-32 px-6 md:px-12 lg:px-20">
-        <div className="flex items-end justify-between mb-12">
-          <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-steel mb-4">Selected Work</p>
-            <h2 className="section-reveal font-bebas text-[clamp(40px,5vw,72px)] text-navy leading-none">
-              Recent Projects
-            </h2>
-          </div>
-        </div>
+        <SectionHeader tag="Selected Work" title="Recent Projects" className="mb-12" />
 
         <div className="h-line h-px bg-glass w-full origin-left mb-12" />
 
@@ -245,11 +230,13 @@ export default function Home() {
 
       {/* SERVICES */}
       <section ref={servicesRef} className="py-24 md:py-36 px-6 md:px-12 lg:px-20 bg-navy text-white">
-        <p className="text-xs font-semibold uppercase tracking-[0.2em] text-steel mb-4">Capabilities</p>
-        <h2 className="section-reveal font-bebas text-[clamp(40px,5vw,72px)] leading-none mb-6">What We Do</h2>
-        <p className="text-lg text-white/60 max-w-lg mb-16">
-          Full-service commercial glazing. One crew, one point of contact, from layout to final punch.
-        </p>
+        <SectionHeader
+          tag="Capabilities"
+          title="What We Do"
+          subtitle="Full-service commercial glazing. One crew, one point of contact, from layout to final punch."
+          tone="dark"
+          className="mb-16"
+        />
         <div className="h-line h-px bg-white/10 w-full origin-left mb-16" />
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-px bg-white/10">
@@ -294,18 +281,8 @@ export default function Home() {
             Whether you&apos;re a GC bidding a tower or a developer planning a landmark — we should talk.
           </p>
           <div className="flex flex-col sm:flex-row gap-4">
-            <Link
-              href="/contact"
-              className="inline-flex items-center justify-center bg-navy text-white px-10 py-4 text-sm font-semibold uppercase tracking-widest hover:bg-steel transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy/40 focus-visible:ring-offset-2"
-            >
-              Get In Touch
-            </Link>
-            <a
-              href="tel:2132937298"
-              className="inline-flex items-center justify-center border-2 border-navy text-navy px-10 py-4 text-sm font-semibold uppercase tracking-widest hover:bg-navy hover:text-white transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy/40 focus-visible:ring-offset-2"
-            >
-              (213) 293-7298
-            </a>
+            <Button href="/contact">Get In Touch</Button>
+            <Button href="tel:2132937298" variant="ghost">(213) 293-7298</Button>
           </div>
         </div>
       </section>

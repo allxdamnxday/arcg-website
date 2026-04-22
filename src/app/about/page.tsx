@@ -1,10 +1,11 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import Link from "next/link";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import PageHero from "@/components/PageHero";
+import Button from "@/components/Button";
+import Section from "@/components/Section";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -158,31 +159,21 @@ export default function AboutPage() {
       </section>
 
       {/* CTA */}
-      <section className="py-24 md:py-32 px-6 md:px-12 lg:px-20 bg-warm">
+      <Section size="lg" tone="warm">
         <div className="about-reveal max-w-2xl">
           <div className="w-24 h-px bg-navy mb-8" />
           <h2 className="font-bebas text-[clamp(40px,5vw,64px)] text-navy leading-[0.95] mb-6">
             Want To Work With Us?
           </h2>
-          <p className="text-lg text-gray-500 mb-10">
+          <p className="text-lg text-gray-600 mb-10">
             Whether you&apos;re a GC looking for a glazing partner or a skilled glazier looking for a crew — reach out.
           </p>
           <div className="flex flex-col sm:flex-row gap-4">
-            <Link
-              href="/contact"
-              className="inline-flex items-center justify-center bg-navy text-white px-10 py-4 text-sm font-semibold uppercase tracking-widest hover:bg-steel transition-colors"
-            >
-              Contact Us
-            </Link>
-            <Link
-              href="/careers"
-              className="inline-flex items-center justify-center border-2 border-navy text-navy px-10 py-4 text-sm font-semibold uppercase tracking-widest hover:bg-navy hover:text-white transition-all"
-            >
-              View Careers
-            </Link>
+            <Button href="/contact">Contact Us</Button>
+            <Button href="/careers" variant="ghost">View Careers</Button>
           </div>
         </div>
-      </section>
+      </Section>
     </main>
   );
 }
