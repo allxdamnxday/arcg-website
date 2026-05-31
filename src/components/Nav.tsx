@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 
 export default function Nav() {
@@ -38,9 +39,12 @@ export default function Nav() {
         }`}
       >
         <Link href="/" className="flex items-center gap-3">
-          <img
+          <Image
             src="/logo.png"
             alt="AR Contract Glazing"
+            width={288}
+            height={180}
+            priority
             className="h-12 w-auto"
             onError={(e) => {
               (e.target as HTMLImageElement).style.display = "none";

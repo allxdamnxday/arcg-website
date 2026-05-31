@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Services",
   description:
-    "Curtain wall, window systems, storefront, specialty glazing, layout & coordination, and QA/QC. Full-service commercial glazing in Los Angeles.",
+    "Curtain wall, windows, storefront, specialty glazing, layout, and QA/QC. Commercial glazing subcontractor, LA-based and working nationwide.",
   alternates: { canonical: "/services" },
 };
 

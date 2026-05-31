@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Careers",
   description:
-    "Join the ARCG crew. Journeyman glazier, apprentice, and foreman openings in Los Angeles. Competitive pay, steady work, real projects.",
+    "Hiring journeyman glaziers, apprentices, and foremen out of Los Angeles. Steady work, solid pay and benefits.",
   alternates: { canonical: "/careers" },
 };
 

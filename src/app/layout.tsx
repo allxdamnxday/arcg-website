@@ -1,11 +1,15 @@
 import type { Metadata } from "next";
+import { Inter, Bebas_Neue } from "next/font/google";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import "./globals.css";
 
+const inter = Inter({ subsets: ["latin"], variable: "--font-inter", display: "swap" });
+const bebas = Bebas_Neue({ subsets: ["latin"], weight: "400", variable: "--font-bebas", display: "swap" });
+
 const SITE = "https://arcontractglazing.com";
 const DESCRIPTION =
-  "High-rise curtain wall installation, window systems, and specialty glazing in Southern California. Precision built.";
+  "High-rise curtain wall, window systems, and specialty glazing. Los Angeles-based commercial glazing subcontractor, working nationwide.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE),
@@ -47,7 +51,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="en" className={`${inter.variable} ${bebas.variable}`}>
       <body className="bg-white">
         <Nav />
         {children}

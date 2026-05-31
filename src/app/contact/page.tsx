@@ -66,7 +66,7 @@ export default function ContactPage() {
       <PageHero
         tag="Get In Touch"
         title={"Let's Talk\nAbout Your Project"}
-        subtitle="Whether you're bidding a tower or planning a build — we'd like to hear about it."
+        subtitle="Send us the scope and drawings, or just a question. We answer fast."
       />
 
       <section className="py-16 md:py-24 px-6 md:px-12 lg:px-20">
@@ -155,7 +155,7 @@ export default function ContactPage() {
                     required
                     rows={5}
                     className="w-full border border-glass px-4 py-3 text-sm focus:outline-none focus:border-navy transition-colors bg-transparent resize-none"
-                    placeholder="Tell us about your project..."
+                    placeholder="Scope, location, timeline, or just a question."
                   />
                 </div>
                 {error && (

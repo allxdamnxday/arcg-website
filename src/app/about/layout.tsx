@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "About",
   description:
-    "AR Contract Glazing is a Los Angeles-based commercial glazing subcontractor. Founded by Alfonso Rodriguez, CA Lic C17-621340.",
+    "AR Contract Glazing is a Los Angeles-based commercial glazing subcontractor working nationwide. Founded by Alfonso Rodriguez. CA Lic C17-621340.",
   alternates: { canonical: "/about" },
 };
 

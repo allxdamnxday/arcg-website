@@ -6,6 +6,8 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Button from "@/components/Button";
 import SectionHeader from "@/components/SectionHeader";
+import { services } from "@/lib/services";
+import { getFeaturedProjects } from "@/lib/projects";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -108,16 +110,16 @@ export default function Home() {
           <div className="flex flex-col justify-center px-6 md:px-12 lg:px-20 py-32 lg:py-0">
             <div className="hero-line h-px bg-navy w-24 mb-8 origin-left" />
             <p className="hero-tag text-xs font-semibold uppercase tracking-[0.2em] text-steel mb-6">
-              Commercial Glazing · Los Angeles
+              Commercial Glazing Contractor
             </p>
             <h1 className="hero-title font-bebas text-[clamp(56px,8vw,100px)] leading-[0.95] text-navy mb-6 overflow-hidden">
-              <span className="block">Precision</span>
-              <span className="block">Glass At</span>
-              <span className="block">Every Level</span>
+              <span className="block">We Hang</span>
+              <span className="block">Glass On</span>
+              <span className="block">High-Rises</span>
             </h1>
             <p className="hero-sub text-lg text-gray-600 max-w-md leading-relaxed mb-10">
-              High-rise curtain wall systems, installed with craft.
-              Skilled glaziers building the Los Angeles skyline.
+              We install curtain wall, windows, and storefront for commercial GCs.
+              Based in Los Angeles, working nationwide.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
               <Button href="/contact" className="hero-btn">Request a Bid</Button>
@@ -144,11 +146,12 @@ export default function Home() {
       {/* STATS */}
       <section ref={statsRef} className="border-y border-glass">
         <div className="grid grid-cols-2 lg:grid-cols-4">
+          {/* TODO(arcg): sq ft is an estimate; confirm the recordable-incidents count */}
           {[
-            { num: "10", suffix: "+", label: "Years Experience" },
-            { num: "50", suffix: "+", label: "Projects Completed" },
-            { num: "500", suffix: "K+", label: "Sq Ft Installed" },
-            { num: "0", suffix: "", label: "Safety Incidents" },
+            { num: "30", suffix: "+", label: "Years In The Field" },
+            { num: "100", suffix: "+", label: "Projects Completed" },
+            { num: "2", suffix: "M+", label: "Sq Ft Of Glass" },
+            { num: "0", suffix: "", label: "Recordable Incidents" },
           ].map((s, i) => (
             <div
               key={i}
@@ -171,9 +174,9 @@ export default function Home() {
           <span className="hidden sm:inline text-glass">·</span>
           <span className="cred-item">Union Signatory</span>
           <span className="hidden sm:inline text-glass">·</span>
-          <span className="cred-item">10+ Years</span>
+          <span className="cred-item">30+ Years</span>
           <span className="hidden sm:inline text-glass">·</span>
-          <span className="cred-item">Based in Los Angeles</span>
+          <span className="cred-item">LA-Based, Nationwide</span>
         </div>
       </section>
 
@@ -184,47 +187,27 @@ export default function Home() {
         <div className="h-line h-px bg-glass w-full origin-left mb-12" />
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-glass">
-          {[
-            {
-              title: "Hollywood Park Hotel",
-              client: "Clayco",
-              location: "Inglewood, CA",
-              scope: "12-Story Curtain Wall",
-              year: "2024 – Present",
-              status: "Active",
-            },
-            {
-              title: "David Yurman Flagship",
-              client: "Bellapart",
-              location: "Beverly Hills, CA",
-              scope: "Specialty Storefront",
-              year: "2024",
-              status: "Complete",
-            },
-            {
-              title: "Mixed-Use Tower",
-              client: "Ventana DBS",
-              location: "Los Angeles, CA",
-              scope: "Curtain Wall & Windows",
-              year: "2023",
-              status: "Complete",
-            },
-          ].map((p, i) => (
-            <div key={i} className="work-card bg-white p-8 md:p-10 flex flex-col">
-              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-steel mb-4">
-                {p.client} · {p.location}
-              </p>
-              <h3 className="font-bebas text-3xl md:text-4xl text-navy leading-[0.95] mb-6">{p.title}</h3>
-              <div className="mt-auto pt-6 border-t border-glass text-sm text-gray-600 space-y-1">
-                <p>{p.scope}</p>
-                <p className="text-silver-dark">{p.year} · {p.status}</p>
+          {getFeaturedProjects().map((project) => {
+            const status = project.stats.find((s) => s.label === "Status")?.value;
+            return (
+              <div key={project.slug} className="work-card bg-white p-8 md:p-10 flex flex-col">
+                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-steel mb-4">
+                  {project.client} · {project.location}
+                </p>
+                <h3 className="font-bebas text-3xl md:text-4xl text-navy leading-[0.95] mb-6">{project.title}</h3>
+                <div className="mt-auto pt-6 border-t border-glass text-sm text-gray-600 space-y-1">
+                  <p>{project.scope}</p>
+                  <p className="text-silver-dark">
+                    {project.year}{status ? ` · ${status}` : ""}
+                  </p>
+                </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
 
         <p className="text-sm text-silver-dark mt-8 text-center md:text-left">
-          Full project gallery coming soon.
+          Project photos coming soon.
         </p>
       </section>
 
@@ -233,25 +216,18 @@ export default function Home() {
         <SectionHeader
           tag="Capabilities"
           title="What We Do"
-          subtitle="Full-service commercial glazing. One crew, one point of contact, from layout to final punch."
+          subtitle="We self-perform the full scope, from layout through final punch list."
           tone="dark"
           className="mb-16"
         />
         <div className="h-line h-px bg-white/10 w-full origin-left mb-16" />
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-px bg-white/10">
-          {[
-            { title: "Curtain Wall Systems", desc: "High-rise unitized and stick-built curtain wall. Our core — every floor, every condition." },
-            { title: "Window Systems", desc: "Punch windows, ribbon windows, and operable units. Precision fit, weathertight." },
-            { title: "Storefront & Entrances", desc: "Ground-level glazing, entrance systems, and doors for commercial spaces." },
-            { title: "Specialty Glazing", desc: "Glass railings, skylights, canopies, and custom architectural features." },
-            { title: "Layout & Coordination", desc: "Field survey, BIM coordination, and precision layout. We catch problems early." },
-            { title: "QA/QC & Closeout", desc: "Water testing, thermal imaging, punch list management. Clean handover." },
-          ].map((s, i) => (
-            <div key={i} className="service-card bg-navy p-8 md:p-10 group hover:bg-white/5 transition-colors duration-500">
+          {services.map((s) => (
+            <div key={s.title} className="service-card bg-navy p-8 md:p-10 group hover:bg-white/5 transition-colors duration-500">
               <div className="w-10 h-px bg-steel mb-6 group-hover:w-16 transition-all duration-500" />
               <h3 className="font-bebas text-2xl md:text-3xl mb-3 leading-none">{s.title}</h3>
-              <p className="text-sm text-white/60 leading-relaxed">{s.desc}</p>
+              <p className="text-sm text-white/70 leading-relaxed">{s.summary}</p>
             </div>
           ))}
         </div>
@@ -273,12 +249,12 @@ export default function Home() {
         <div className="cta-content relative z-10 max-w-3xl">
           <div className="w-24 h-px bg-navy mb-8" />
           <h2 className="font-bebas text-[clamp(48px,6vw,80px)] text-navy leading-[0.95] mb-6">
-            Let&apos;s Build
+            Let&apos;s Talk
             <br />
-            Something Notable
+            Scope
           </h2>
           <p className="text-lg text-gray-600 max-w-md mb-10 leading-relaxed">
-            Whether you&apos;re a GC bidding a tower or a developer planning a landmark — we should talk.
+            Send us the drawings. We&apos;ll walk the scope and get you a bid.
           </p>
           <div className="flex flex-col sm:flex-row gap-4">
             <Button href="/contact">Get In Touch</Button>

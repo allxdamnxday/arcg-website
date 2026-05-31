@@ -1,80 +1,82 @@
-"use client";
-
-import { useEffect, useRef } from "react";
-import { useParams } from "next/navigation";
+import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 import Link from "next/link";
-import gsap from "gsap";
+import Image from "next/image";
 import { projects, getProject } from "@/lib/projects";
+import Reveal from "@/components/Reveal";
 
-export default function ProjectDetail() {
-  const { slug } = useParams<{ slug: string }>();
+export function generateStaticParams() {
+  return projects.map((p) => ({ slug: p.slug }));
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+  const { slug } = await params;
   const project = getProject(slug);
-  const ref = useRef<HTMLDivElement>(null);
+  if (!project) return {};
+  return {
+    title: project.title,
+    description: project.description,
+    alternates: { canonical: `/projects/${project.slug}` },
+    // Matches the staged /projects index — drop when real photography lands.
+    robots: { index: false, follow: true },
+    openGraph: {
+      title: project.title,
+      description: project.description,
+      url: `/projects/${project.slug}`,
+      images: [project.image],
+    },
+  };
+}
 
-  useEffect(() => {
-    if (!project) return;
-    const mm = gsap.matchMedia();
-    mm.add("(prefers-reduced-motion: no-preference)", () => {
-      const ctx = gsap.context(() => {
-        const tl = gsap.timeline();
-        tl.from(".detail-image", { clipPath: "inset(100% 0 0 0)", duration: 1.4, ease: "power4.inOut" })
-          .from(".detail-tag", { opacity: 0, y: 20, duration: 0.6 }, "-=0.6")
-          .from(".detail-title", { opacity: 0, y: 40, duration: 0.8 }, "-=0.4")
-          .from(".detail-stat", { opacity: 0, y: 30, stagger: 0.1, duration: 0.6 }, "-=0.4")
-          .from(".detail-body", { opacity: 0, y: 30, duration: 0.8 }, "-=0.3");
-      }, ref);
-      return () => ctx.revert();
-    });
-    return () => mm.revert();
-  }, [project]);
+export default async function ProjectDetail({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
+  const { slug } = await params;
+  const project = getProject(slug);
+  if (!project) notFound();
 
-  if (!project) {
-    return (
-      <main className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <h1 className="font-bebas text-6xl text-navy mb-4">Project Not Found</h1>
-          <Link href="/projects" className="text-steel hover:text-navy transition-colors">
-            ← Back to Projects
-          </Link>
-        </div>
-      </main>
-    );
-  }
-
-  // Find adjacent projects for navigation
   const currentIndex = projects.findIndex((p) => p.slug === slug);
   const prevProject = currentIndex > 0 ? projects[currentIndex - 1] : null;
   const nextProject = currentIndex < projects.length - 1 ? projects[currentIndex + 1] : null;
 
   return (
-    <main ref={ref}>
+    <main>
       {/* Hero Image */}
       <section className="relative h-[60vh] md:h-[70vh] overflow-hidden">
-        <div className="detail-image absolute inset-0" style={{ clipPath: "inset(0)" }}>
-          <img
+        <Reveal variant="clip" immediate className="absolute inset-0" style={{ clipPath: "inset(0)" }}>
+          <Image
             src={project.image}
             alt={project.title}
-            className="absolute inset-0 w-full h-full object-cover"
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
-        </div>
-        <div className="absolute bottom-0 left-0 p-8 md:p-12 lg:p-20">
-          <p className="detail-tag text-xs font-semibold uppercase tracking-[0.2em] text-silver mb-3">
+        </Reveal>
+        <Reveal variant="stagger" y={30} immediate delay={0.4} className="absolute bottom-0 left-0 p-8 md:p-12 lg:p-20">
+          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-silver mb-3">
             {project.client} · {project.location}
           </p>
-          <h1 className="detail-title font-bebas text-[clamp(48px,8vw,96px)] text-white leading-[0.95]">
+          <h1 className="font-bebas text-[clamp(48px,8vw,96px)] text-white leading-[0.95]">
             {project.title}
           </h1>
-        </div>
+        </Reveal>
       </section>
 
       {/* Stats Bar */}
       <section className="border-b border-glass">
-        <div className="grid grid-cols-2 md:grid-cols-4">
+        <Reveal variant="stagger" y={30} className="grid grid-cols-2 md:grid-cols-4">
           {project.stats.map((stat, i) => (
             <div
               key={i}
-              className="detail-stat px-6 md:px-10 py-8 text-center border-r border-glass last:border-r-0"
+              className="px-6 md:px-10 py-8 text-center border-r border-glass last:border-r-0"
             >
               <div className="font-bebas text-3xl text-navy mb-1">{stat.value}</div>
               <div className="text-xs font-medium uppercase tracking-[0.15em] text-silver-dark">
@@ -82,12 +84,12 @@ export default function ProjectDetail() {
               </div>
             </div>
           ))}
-        </div>
+        </Reveal>
       </section>
 
       {/* Description */}
       <section className="py-16 md:py-24 px-6 md:px-12 lg:px-20">
-        <div className="detail-body max-w-3xl">
+        <Reveal className="max-w-3xl">
           <div className="w-16 h-px bg-navy mb-8" />
           <h2 className="font-bebas text-3xl text-navy mb-4">Project Overview</h2>
           <p className="text-lg text-gray-600 leading-relaxed mb-8">{project.description}</p>
@@ -99,7 +101,7 @@ export default function ProjectDetail() {
               {project.year}
             </span>
           </div>
-        </div>
+        </Reveal>
       </section>
 
       {/* Photo Gallery Placeholder */}
