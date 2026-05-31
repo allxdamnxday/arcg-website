@@ -6,7 +6,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
 
-type Variant = "fade-up" | "stagger" | "clip";
+type Variant = "fade-up" | "stagger" | "clip" | "glass";
 
 interface RevealProps {
   children: ReactNode;
@@ -16,6 +16,8 @@ interface RevealProps {
   delay?: number;
   /** Play on mount instead of on scroll. Use for above-the-fold (hero) content. */
   immediate?: boolean;
+  /** Continuous scrubbed parallax, in yPercent (e.g. -12). Pair with clip/glass, not fade-up. */
+  parallax?: number;
   className?: string;
   style?: CSSProperties;
 }
@@ -27,6 +29,7 @@ export default function Reveal({
   start = "top 80%",
   delay = 0,
   immediate = false,
+  parallax,
   className,
   style,
 }: RevealProps) {
@@ -57,6 +60,15 @@ export default function Reveal({
             ease: "power4.inOut",
             scrollTrigger,
           });
+        } else if (variant === "glass") {
+          // Panel seating into its mullion frame: a clean left-to-right wipe.
+          gsap.from(el, {
+            clipPath: "inset(0 0 0 100%)",
+            duration: 1.1,
+            delay,
+            ease: "power4.inOut",
+            scrollTrigger,
+          });
         } else {
           gsap.from(el, {
             opacity: 0,
@@ -67,11 +79,19 @@ export default function Reveal({
             scrollTrigger,
           });
         }
+
+        if (parallax) {
+          gsap.to(el, {
+            yPercent: parallax,
+            ease: "none",
+            scrollTrigger: { trigger: el, start: "top bottom", end: "bottom top", scrub: true },
+          });
+        }
       }, ref);
       return () => ctx.revert();
     });
     return () => mm.revert();
-  }, [variant, y, start, delay, immediate]);
+  }, [variant, y, start, delay, immediate, parallax]);
 
   return (
     <div ref={ref} className={className} style={style}>

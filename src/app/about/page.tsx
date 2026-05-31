@@ -17,7 +17,7 @@ export default function AboutPage() {
       <section className="py-16 md:py-24 px-6 md:px-12 lg:px-20">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24">
           <Reveal>
-            <div className="w-12 h-px bg-navy mb-6" />
+            <div className="w-12 h-px bg-accent mb-6" />
             <h2 className="font-bebas text-4xl md:text-5xl text-navy mb-6">Our Story</h2>
             <div className="space-y-4 text-base text-gray-600 leading-relaxed">
               <p>
@@ -37,7 +37,7 @@ export default function AboutPage() {
               </p>
             </div>
           </Reveal>
-          <Reveal className="relative overflow-hidden rounded-sm min-h-[400px]">
+          <Reveal variant="glass" className="relative overflow-hidden rounded-sm min-h-[400px]">
             {/* TODO: Replace with real crew/site photo */}
             <Image
               src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=800&q=80"
@@ -52,38 +52,43 @@ export default function AboutPage() {
 
       {/* Values */}
       <section className="py-16 md:py-24 px-6 md:px-12 lg:px-20 bg-warm">
-        <Reveal className="max-w-4xl mx-auto text-center mb-16">
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-steel mb-4">What Drives Us</p>
-          <h2 className="font-bebas text-4xl md:text-5xl text-navy">Our Values</h2>
-        </Reveal>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-          {[
-            {
-              title: "Precision",
-              desc: "Curtain wall tolerances get measured in millimeters. We hold that standard from layout points through the final punch list.",
-            },
-            {
-              title: "Safety",
-              desc: "Our crews work at height on active sites every day. Everyone's OSHA-trained, every lift gets planned, and fall protection isn't optional.",
-            },
-            {
-              title: "Integrity",
-              desc: "If we commit to a date, we work to hit it. If something goes wrong in the field, we own it and fix it instead of papering over it.",
-            },
-          ].map((v, i) => (
-            <Reveal key={i} className="text-center">
-              <div className="w-12 h-px bg-navy mx-auto mb-6" />
-              <h3 className="font-bebas text-2xl text-navy mb-3">{v.title}</h3>
-              <p className="text-sm text-gray-600 leading-relaxed">{v.desc}</p>
-            </Reveal>
-          ))}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
+          <Reveal className="lg:col-span-4">
+            <div className="w-12 h-px bg-accent mb-6" />
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-accent-ink mb-4">What Drives Us</p>
+            <h2 className="font-bebas text-4xl md:text-5xl text-navy">Our Values</h2>
+          </Reveal>
+          <div className="lg:col-span-7 lg:col-start-6 divide-y divide-glass">
+            {[
+              {
+                title: "Precision",
+                desc: "Curtain wall tolerances get measured in millimeters. We hold that standard from layout points through the final punch list.",
+              },
+              {
+                title: "Safety",
+                desc: "Our crews work at height on active sites every day. Everyone's OSHA-trained, every lift gets planned, and fall protection isn't optional.",
+              },
+              {
+                title: "Integrity",
+                desc: "If we commit to a date, we work to hit it. If something goes wrong in the field, we own it and fix it instead of papering over it.",
+              },
+            ].map((v, i) => (
+              <Reveal key={i} className="flex gap-6 py-8 first:pt-0 last:pb-0">
+                <span className="font-bebas text-3xl leading-none text-navy/15 pt-1">{String(i + 1).padStart(2, "0")}</span>
+                <div>
+                  <h3 className="font-bebas text-2xl text-navy mb-2">{v.title}</h3>
+                  <p className="text-sm text-gray-600 leading-relaxed">{v.desc}</p>
+                </div>
+              </Reveal>
+            ))}
+          </div>
         </div>
       </section>
 
       {/* Credentials */}
       <section className="py-16 md:py-24 px-6 md:px-12 lg:px-20">
         <Reveal className="max-w-4xl">
-          <div className="w-12 h-px bg-navy mb-6" />
+          <div className="w-12 h-px bg-accent mb-6" />
           <h2 className="font-bebas text-4xl md:text-5xl text-navy mb-8">Credentials</h2>
           {/* TODO(arcg): confirm license number, certifications, and union affiliation below */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -111,7 +116,7 @@ export default function AboutPage() {
       {/* Key People */}
       <section className="py-16 md:py-24 px-6 md:px-12 lg:px-20 bg-navy text-white">
         <Reveal>
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-steel mb-4">Leadership</p>
+          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-accent mb-4">Leadership</p>
           <h2 className="font-bebas text-4xl md:text-5xl mb-12">Our Team</h2>
           {/* TODO(arcg): confirm titles and bios */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -122,7 +127,7 @@ export default function AboutPage() {
             ].map((p, i) => (
               <div key={i} className="border border-white/10 p-8">
                 <div className="w-16 h-16 bg-white/10 rounded-full mb-4 flex items-center justify-center">
-                  <span className="font-bebas text-2xl text-steel">
+                  <span className="font-bebas text-2xl text-accent">
                     {p.name.split(" ").map((n) => n[0]).join("")}
                   </span>
                 </div>
@@ -138,7 +143,7 @@ export default function AboutPage() {
       {/* CTA */}
       <Section size="lg" tone="warm">
         <Reveal className="max-w-2xl">
-          <div className="w-24 h-px bg-navy mb-8" />
+          <div className="w-24 h-px bg-accent mb-8" />
           <h2 className="font-bebas text-[clamp(40px,5vw,64px)] text-navy leading-[0.95] mb-6">
             Want To Work With Us?
           </h2>

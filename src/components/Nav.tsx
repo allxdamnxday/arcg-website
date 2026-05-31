@@ -20,6 +20,13 @@ export default function Nav() {
     setMenuOpen(false);
   }, [pathname]);
 
+  useEffect(() => {
+    document.body.style.overflow = menuOpen ? "hidden" : "";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [menuOpen]);
+
   const links = [
     // { href: "/projects", label: "Projects" }, // Hidden until media content is ready
     { href: "/services", label: "Services" },
@@ -62,7 +69,7 @@ export default function Nav() {
               key={l.href}
               href={l.href}
               className={`text-sm font-medium transition-colors ${
-                isActive(l.href) ? "text-steel" : "text-gray-800 hover:text-steel"
+                isActive(l.href) ? "text-accent-ink" : "text-gray-800 hover:text-accent-ink"
               }`}
             >
               {l.label}
@@ -78,9 +85,10 @@ export default function Nav() {
 
         {/* Mobile hamburger */}
         <button
-          className="md:hidden flex flex-col gap-1.5 p-2"
+          className="md:hidden flex flex-col items-center justify-center gap-1.5 w-11 h-11 -mr-2"
           onClick={() => setMenuOpen(!menuOpen)}
           aria-label="Toggle menu"
+          aria-expanded={menuOpen}
         >
           <span
             className={`w-6 h-0.5 bg-navy transition-all duration-300 ${
@@ -107,13 +115,14 @@ export default function Nav() {
         }`}
       >
         <div className="flex flex-col items-center justify-center h-full gap-8">
-          {[...links, { href: "/contact", label: "Contact" }].map((l) => (
+          {[...links, { href: "/contact", label: "Contact" }].map((l, i) => (
             <Link
               key={l.href}
               href={l.href}
-              className={`font-bebas text-4xl tracking-wider ${
-                isActive(l.href) ? "text-steel" : "text-navy"
-              }`}
+              style={{ transitionDelay: menuOpen ? `${i * 60 + 150}ms` : "0ms" }}
+              className={`font-bebas text-4xl tracking-wider transition-all duration-500 motion-reduce:transition-none ${
+                menuOpen ? "opacity-100 translate-y-0" : "opacity-0 translate-y-5"
+              } ${isActive(l.href) ? "text-accent-ink" : "text-navy"}`}
             >
               {l.label}
             </Link>

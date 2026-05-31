@@ -18,7 +18,7 @@ type ButtonProps = SharedProps & {
   Omit<AnchorHTMLAttributes<HTMLAnchorElement>, keyof SharedProps | "href">;
 
 const BASE =
-  "inline-flex items-center justify-center font-semibold uppercase tracking-widest transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed";
+  "inline-flex items-center justify-center min-h-[44px] font-semibold uppercase tracking-widest transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed";
 
 const SIZE: Record<Size, string> = {
   md: "px-10 py-4 text-sm",
@@ -26,9 +26,9 @@ const SIZE: Record<Size, string> = {
 };
 
 const VARIANT: Record<Variant, string> = {
-  primary: "bg-navy text-white hover:bg-steel focus-visible:ring-navy/40",
-  ghost: "border-2 border-navy text-navy hover:bg-navy hover:text-white focus-visible:ring-navy/40",
-  white: "bg-white text-navy hover:bg-steel hover:text-white focus-visible:ring-white/60",
+  primary: "bg-navy text-white hover:bg-steel focus-visible:ring-accent",
+  ghost: "border-2 border-navy text-navy hover:bg-navy hover:text-white focus-visible:ring-accent",
+  white: "bg-white text-navy hover:bg-steel hover:text-white focus-visible:ring-accent",
 };
 
 function classes(variant: Variant, size: Size, extra?: string) {

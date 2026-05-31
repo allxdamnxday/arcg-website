@@ -15,37 +15,45 @@ export default function ServicesPage() {
       />
 
       <section className="py-16 md:py-24">
-        {services.map((svc, i) => (
-          <Reveal
-            key={i}
-            y={60}
-            start="top 80%"
-            className="grid grid-cols-1 lg:grid-cols-2 border-b border-glass"
-          >
-            <div className={`px-6 md:px-12 lg:px-20 py-16 md:py-24 ${i % 2 === 1 ? "lg:order-2" : ""}`}>
-              <div className="w-12 h-px bg-navy mb-6" />
-              <h2 className="font-bebas text-4xl md:text-5xl text-navy mb-4">{svc.title}</h2>
-              <p className="text-gray-600 leading-relaxed mb-8">{svc.description}</p>
-              <ul className="space-y-2">
-                {svc.features.map((f, j) => (
-                  <li key={j} className="flex items-center gap-3 text-sm text-gray-700">
-                    <span className="w-1.5 h-1.5 bg-steel rounded-full flex-shrink-0" />
-                    {f}
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div className={`relative overflow-hidden min-h-[300px] lg:min-h-0 ${i % 2 === 1 ? "lg:order-1" : ""}`}>
-              <Image
-                src={svc.image}
-                alt={svc.title}
-                fill
-                sizes="(min-width: 1024px) 50vw, 100vw"
-                className="object-cover"
-              />
-            </div>
-          </Reveal>
-        ))}
+        {services.map((svc, i) => {
+          const flipped = i % 2 === 1;
+          return (
+            <Reveal
+              key={i}
+              y={60}
+              start="top 80%"
+              className="grid grid-cols-1 lg:grid-cols-12 items-stretch border-b border-glass"
+            >
+              <div className={`px-6 md:px-12 lg:px-20 py-16 md:py-24 lg:col-span-5 ${flipped ? "lg:order-2" : ""}`}>
+                <div className="mb-6 flex items-end gap-5">
+                  <span className="font-bebas text-6xl md:text-7xl leading-none text-navy/15">
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                  <span className="mb-2 h-px flex-1 bg-accent" />
+                </div>
+                <h2 className="font-bebas text-4xl md:text-5xl text-navy mb-4">{svc.title}</h2>
+                <p className="text-gray-600 leading-relaxed mb-8">{svc.description}</p>
+                <ul className="space-y-2">
+                  {svc.features.map((f, j) => (
+                    <li key={j} className="flex items-center gap-3 text-sm text-gray-700">
+                      <span className="w-1.5 h-1.5 bg-accent rounded-full flex-shrink-0" />
+                      {f}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div className={`relative overflow-hidden min-h-[300px] lg:min-h-0 lg:col-span-7 ${flipped ? "lg:order-1" : ""}`}>
+                <Image
+                  src={svc.image}
+                  alt={svc.title}
+                  fill
+                  sizes="(min-width: 1024px) 58vw, 100vw"
+                  className="object-cover"
+                />
+              </div>
+            </Reveal>
+          );
+        })}
       </section>
 
       {/* CTA */}

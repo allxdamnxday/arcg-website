@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
+import GlassGrid from "@/components/GlassGrid";
 
 interface PageHeroProps {
   tag: string;
@@ -28,17 +29,34 @@ export default function PageHero({ tag, title, subtitle }: PageHeroProps) {
   }, []);
 
   return (
-    <section ref={ref} className="pt-32 pb-16 md:pt-40 md:pb-24 px-6 md:px-12 lg:px-20 bg-warm">
-      <div className="page-hero-line h-px bg-navy w-24 mb-8 origin-left" />
-      <p className="page-hero-tag text-xs font-semibold uppercase tracking-[0.2em] text-steel mb-4">{tag}</p>
-      <h1 className="page-hero-title font-bebas text-[clamp(48px,7vw,88px)] text-navy leading-[0.95] overflow-hidden">
-        {title.split("\n").map((line, i) => (
-          <span key={i} className="block">{line}</span>
-        ))}
-      </h1>
-      {subtitle && (
-        <p className="page-hero-sub text-lg text-gray-500 max-w-lg mt-6 leading-relaxed">{subtitle}</p>
-      )}
+    <section ref={ref} className="relative overflow-hidden pt-32 pb-16 md:pt-40 md:pb-24 px-6 md:px-12 lg:px-20 bg-warm">
+      {/* Curtain-wall mullion motif — anchored in the right negative space, fades toward the headline */}
+      <GlassGrid
+        cellX={84}
+        cellY={140}
+        opacity={0.35}
+        className="left-auto right-0 w-2/3"
+        style={{
+          WebkitMaskImage: "linear-gradient(to right, transparent, black 75%)",
+          maskImage: "linear-gradient(to right, transparent, black 75%)",
+        }}
+      />
+      <div className="relative grid grid-cols-12 gap-y-6">
+        <div className="col-span-12">
+          <div className="page-hero-line h-px bg-accent w-24 mb-8 origin-left" />
+          <p className="page-hero-tag text-xs font-semibold uppercase tracking-[0.2em] text-accent-ink mb-5">{tag}</p>
+          <h1 className="page-hero-title font-bebas text-[clamp(48px,9vw,132px)] text-navy leading-[0.92] tracking-[-0.01em] overflow-hidden">
+            {title.split("\n").map((line, i) => (
+              <span key={i} className="block">{line}</span>
+            ))}
+          </h1>
+        </div>
+        {subtitle && (
+          <p className="page-hero-sub col-span-12 sm:col-span-10 lg:col-span-5 lg:col-start-8 text-lg text-gray-500 leading-relaxed lg:text-right">
+            {subtitle}
+          </p>
+        )}
+      </div>
     </section>
   );
 }

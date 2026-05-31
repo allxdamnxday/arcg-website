@@ -8,6 +8,11 @@
   --color-silver-dark: #6b7d91;
   --color-glass: #e8edf2;
   --color-warm: #f8f9fa;
+  /* Azure accent. Bright azure is for dark backgrounds, hairlines, glows, focus
+     and large non-text only — it fails WCAG as text on light (~1.8:1 on white).
+     Use accent-ink for any accent text/link on light (~5.9:1 on white, ~5.6:1 on warm). */
+  --color-accent: #2dd4e8;
+  --color-accent-ink: #0b6e80;
 }
 
 html {
@@ -23,4 +28,71 @@ body {
 
 .font-bebas {
   font-family: var(--font-bebas), sans-serif;
+}
+
+/* Lenis smooth scroll — these classes are only present while Lenis is active
+   (it is not initialized under reduced motion, so native scroll is preserved). */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+.lenis.lenis-smooth iframe {
+  pointer-events: none;
+}
+
+/* Route transition — a curtain-wall panel wipe. CSS-driven so it replays on
+   every navigation (template.tsx remounts the overlay) and degrades gracefully
+   with no JS. The overlay is pointer-events:none and aria-hidden, so it never
+   traps focus or blocks interaction while it retracts. */
+@keyframes panel-retract {
+  from {
+    transform: scaleY(1);
+  }
+  to {
+    transform: scaleY(0);
+  }
+}
+.route-transition {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  display: flex;
+  pointer-events: none;
+}
+.route-transition__panel {
+  flex: 1 1 0%;
+  height: 100%;
+  transform-origin: top;
+  background-color: var(--color-navy-deep);
+  border-right: 1px solid color-mix(in srgb, var(--color-accent) 35%, transparent);
+  animation: panel-retract 0.58s cubic-bezier(0.76, 0, 0.24, 1) forwards;
+}
+.route-transition__panel:last-child {
+  border-right: 0;
+}
+.route-transition__panel:nth-child(2) {
+  animation-delay: 0.04s;
+}
+.route-transition__panel:nth-child(3) {
+  animation-delay: 0.08s;
+}
+.route-transition__panel:nth-child(4) {
+  animation-delay: 0.12s;
+}
+.route-transition__panel:nth-child(5) {
+  animation-delay: 0.16s;
+}
+@media (prefers-reduced-motion: reduce) {
+  .route-transition {
+    display: none;
+  }
 }

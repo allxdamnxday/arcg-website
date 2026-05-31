@@ -25,7 +25,7 @@ export default function ProjectsPage() {
               <Link
                 href={`/projects/${project.slug}`}
                 className={`group relative overflow-hidden rounded-sm cursor-pointer block ${
-                  i === 0 ? "aspect-[21/9]" : "aspect-[4/3]"
+                  i === 0 ? "aspect-[4/3] md:aspect-[21/9]" : "aspect-[4/3]"
                 }`}
               >
                 <Image
@@ -33,7 +33,7 @@ export default function ProjectsPage() {
                   alt={project.title}
                   fill
                   sizes={i === 0 ? "100vw" : "(min-width: 768px) 50vw, 100vw"}
-                  className="object-cover group-hover:scale-105 transition-transform duration-700"
+                  className="object-cover group-hover:scale-105 group-active:scale-105 transition-transform duration-700"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
                 <div className="absolute bottom-0 left-0 p-6 md:p-8 lg:p-12">

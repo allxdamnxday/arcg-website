@@ -61,29 +61,31 @@ export default function CareersPage() {
 
       {/* Why ARCG */}
       <section className="py-16 md:py-24 px-6 md:px-12 lg:px-20">
-        <Reveal start="top 85%" className="max-w-4xl">
-          <div className="w-12 h-px bg-navy mb-6" />
-          <h2 className="font-bebas text-4xl md:text-5xl text-navy mb-6">Why ARCG?</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
+          <Reveal start="top 85%" className="lg:col-span-4">
+            <div className="w-12 h-px bg-accent mb-6" />
+            <h2 className="font-bebas text-4xl md:text-5xl text-navy">Why ARCG?</h2>
+          </Reveal>
+          <Reveal variant="stagger" start="top 85%" className="lg:col-span-7 lg:col-start-6 grid grid-cols-1 md:grid-cols-2 gap-8">
             {[
               { title: "Pay & Benefits", desc: "Solid pay plus health insurance, retirement, and paid time off. We take care of the people who do the work." },
               { title: "Real Projects", desc: "High-rises and commercial buildings you can drive past and point to. The kind of jobs worth showing up for." },
               { title: "Steady Work", desc: "We keep a steady backlog. When one job wraps, the next one's already lined up, so the work doesn't dry up between projects." },
               { title: "Respect", desc: "We treat the crew like the professionals they are. Show up, do good work, and you'll be treated right." },
             ].map((item, i) => (
-              <div key={i} className="border-l-2 border-steel pl-6">
+              <div key={i} className="border-l-2 border-accent pl-6">
                 <h3 className="font-semibold text-navy mb-2">{item.title}</h3>
                 <p className="text-sm text-gray-600 leading-relaxed">{item.desc}</p>
               </div>
             ))}
-          </div>
-        </Reveal>
+          </Reveal>
+        </div>
       </section>
 
       {/* Openings */}
       <section className="py-16 md:py-24 px-6 md:px-12 lg:px-20 bg-warm">
         <Reveal start="top 85%" className="mb-12">
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-steel mb-4">Current Openings</p>
+          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-accent-ink mb-4">Current Openings</p>
           <h2 className="font-bebas text-4xl md:text-5xl text-navy">Open Positions</h2>
         </Reveal>
 
@@ -109,7 +111,7 @@ export default function CareersPage() {
                 <ul className="grid grid-cols-1 md:grid-cols-2 gap-2">
                   {job.requirements.map((req, j) => (
                     <li key={j} className="flex items-start gap-2 text-sm text-gray-700">
-                      <span className="w-1.5 h-1.5 bg-steel rounded-full flex-shrink-0 mt-1.5" />
+                      <span className="w-1.5 h-1.5 bg-accent rounded-full flex-shrink-0 mt-1.5" />
                       {req}
                     </li>
                   ))}

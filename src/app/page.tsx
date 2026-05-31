@@ -5,7 +5,9 @@ import Link from "next/link";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Button from "@/components/Button";
+import Magnetic from "@/components/Magnetic";
 import SectionHeader from "@/components/SectionHeader";
+import GlassGrid from "@/components/GlassGrid";
 import { services } from "@/lib/services";
 import { getFeaturedProjects } from "@/lib/projects";
 
@@ -98,7 +100,40 @@ export default function Home() {
       return () => ctx.revert();
     });
 
+    // Hero parallax — desktop only. Video drifts down, title lifts, as the hero
+    // scrolls away. scale-110 on the video keeps edges covered through the shift.
+    mm.add("(prefers-reduced-motion: no-preference) and (min-width: 1024px)", () => {
+      const ctx = gsap.context(() => {
+        gsap.to(".hero-image video", {
+          yPercent: 12,
+          ease: "none",
+          scrollTrigger: { trigger: heroRef.current, start: "top top", end: "bottom top", scrub: true },
+        });
+        gsap.to(".hero-title", {
+          yPercent: -14,
+          ease: "none",
+          scrollTrigger: { trigger: heroRef.current, start: "top top", end: "bottom top", scrub: true },
+        });
+      });
+      return () => ctx.revert();
+    });
+
     return () => mm.revert();
+  }, []);
+
+  // Pause the hero video while it's offscreen to save battery/CPU.
+  useEffect(() => {
+    const vid = heroRef.current?.querySelector("video");
+    if (!vid) return;
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) vid.play().catch(() => {});
+        else vid.pause();
+      },
+      { threshold: 0 }
+    );
+    io.observe(vid);
+    return () => io.disconnect();
   }, []);
 
   return (
@@ -109,10 +144,10 @@ export default function Home() {
         <div className="grid grid-cols-1 lg:grid-cols-2 w-full min-h-screen">
           <div className="flex flex-col justify-center px-6 md:px-12 lg:px-20 py-32 lg:py-0">
             <div className="hero-line h-px bg-navy w-24 mb-8 origin-left" />
-            <p className="hero-tag text-xs font-semibold uppercase tracking-[0.2em] text-steel mb-6">
+            <p className="hero-tag text-xs font-semibold uppercase tracking-[0.2em] text-accent-ink mb-6">
               Commercial Glazing Contractor
             </p>
-            <h1 className="hero-title font-bebas text-[clamp(56px,8vw,100px)] leading-[0.95] text-navy mb-6 overflow-hidden">
+            <h1 className="hero-title font-bebas text-[clamp(56px,7vw,112px)] leading-[0.9] tracking-[-0.01em] text-navy mb-6 overflow-hidden">
               <span className="block">We Hang</span>
               <span className="block">Glass On</span>
               <span className="block">High-Rises</span>
@@ -122,12 +157,16 @@ export default function Home() {
               Based in Los Angeles, working nationwide.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
-              <Button href="/contact" className="hero-btn">Request a Bid</Button>
-              <Button href="/services" variant="ghost" className="hero-btn">Our Services</Button>
+              <Magnetic className="w-full sm:w-auto">
+                <Button href="/contact" className="hero-btn w-full sm:w-auto">Request a Bid</Button>
+              </Magnetic>
+              <Magnetic className="w-full sm:w-auto">
+                <Button href="/services" variant="ghost" className="hero-btn w-full sm:w-auto">Our Services</Button>
+              </Magnetic>
             </div>
           </div>
 
-          <div className="hero-image relative overflow-hidden lg:min-h-screen" style={{ clipPath: "inset(0)" }}>
+          <div className="hero-image relative overflow-hidden min-h-[60vh] lg:min-h-screen" style={{ clipPath: "inset(0)" }}>
             <video
               autoPlay
               muted
@@ -139,6 +178,7 @@ export default function Home() {
               <source src="/hero-video.mp4" type="video/mp4" />
             </video>
             <div className="absolute inset-0 bg-navy/20" />
+            <GlassGrid cellX={88} cellY={150} opacity={0.3} />
           </div>
         </div>
       </section>
@@ -157,9 +197,9 @@ export default function Home() {
               key={i}
               className="stat-item px-6 md:px-10 py-12 md:py-16 text-center border-r border-glass last:border-r-0 [&:nth-child(2)]:max-lg:border-r-0"
             >
-              <div className="font-bebas text-[clamp(40px,5vw,64px)] text-navy leading-none mb-1">
+              <div className="font-bebas text-[clamp(44px,5.5vw,76px)] text-navy leading-none mb-1">
                 <span className="stat-num">{s.num}</span>
-                {s.suffix}
+                <span className="text-accent-ink">{s.suffix}</span>
               </div>
               <div className="text-xs font-medium uppercase tracking-[0.15em] text-silver-dark">{s.label}</div>
             </div>
@@ -190,11 +230,11 @@ export default function Home() {
           {getFeaturedProjects().map((project) => {
             const status = project.stats.find((s) => s.label === "Status")?.value;
             return (
-              <div key={project.slug} className="work-card bg-white p-8 md:p-10 flex flex-col">
-                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-steel mb-4">
+              <div key={project.slug} className="work-card group bg-white p-8 md:p-10 flex flex-col transition-colors duration-500 hover:bg-warm">
+                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-steel mb-4 transition-colors duration-500 group-hover:text-accent-ink">
                   {project.client} · {project.location}
                 </p>
-                <h3 className="font-bebas text-3xl md:text-4xl text-navy leading-[0.95] mb-6">{project.title}</h3>
+                <h3 className="font-bebas text-3xl md:text-4xl text-navy leading-[0.95] mb-6 transition-colors duration-500 group-hover:text-accent-ink">{project.title}</h3>
                 <div className="mt-auto pt-6 border-t border-glass text-sm text-gray-600 space-y-1">
                   <p>{project.scope}</p>
                   <p className="text-silver-dark">
@@ -212,7 +252,9 @@ export default function Home() {
       </section>
 
       {/* SERVICES */}
-      <section ref={servicesRef} className="py-24 md:py-36 px-6 md:px-12 lg:px-20 bg-navy text-white">
+      <section ref={servicesRef} className="relative overflow-hidden py-24 md:py-36 px-6 md:px-12 lg:px-20 bg-navy text-white">
+        <GlassGrid cellX={76} cellY={128} opacity={0.1} />
+        <div className="relative z-10">
         <SectionHeader
           tag="Capabilities"
           title="What We Do"
@@ -224,8 +266,8 @@ export default function Home() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-px bg-white/10">
           {services.map((s) => (
-            <div key={s.title} className="service-card bg-navy p-8 md:p-10 group hover:bg-white/5 transition-colors duration-500">
-              <div className="w-10 h-px bg-steel mb-6 group-hover:w-16 transition-all duration-500" />
+            <div key={s.title} className="service-card bg-navy p-8 md:p-10 group hover:bg-white/5 active:bg-white/5 transition-colors duration-500">
+              <div className="w-10 h-px bg-steel mb-6 group-hover:w-16 group-hover:bg-accent transition-all duration-500" />
               <h3 className="font-bebas text-2xl md:text-3xl mb-3 leading-none">{s.title}</h3>
               <p className="text-sm text-white/70 leading-relaxed">{s.summary}</p>
             </div>
@@ -240,6 +282,7 @@ export default function Home() {
             <span>View All Services</span>
             <span className="w-8 h-px bg-current" />
           </Link>
+        </div>
         </div>
       </section>
 
@@ -257,8 +300,12 @@ export default function Home() {
             Send us the drawings. We&apos;ll walk the scope and get you a bid.
           </p>
           <div className="flex flex-col sm:flex-row gap-4">
-            <Button href="/contact">Get In Touch</Button>
-            <Button href="tel:2132937298" variant="ghost">(213) 293-7298</Button>
+            <Magnetic className="w-full sm:w-auto">
+              <Button href="/contact" className="w-full sm:w-auto">Get In Touch</Button>
+            </Magnetic>
+            <Magnetic className="w-full sm:w-auto">
+              <Button href="tel:2132937298" variant="ghost" className="w-full sm:w-auto">(213) 293-7298</Button>
+            </Magnetic>
           </div>
         </div>
       </section>

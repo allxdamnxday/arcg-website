@@ -1,33 +1,14 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import gsap from "gsap";
+import { useState } from "react";
 import PageHero from "@/components/PageHero";
 import Button from "@/components/Button";
+import Reveal from "@/components/Reveal";
 
 export default function ContactPage() {
-  const ref = useRef<HTMLDivElement>(null);
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    const mm = gsap.matchMedia();
-    mm.add("(prefers-reduced-motion: no-preference)", () => {
-      const ctx = gsap.context(() => {
-        gsap.from(".contact-reveal", {
-          opacity: 0,
-          y: 40,
-          stagger: 0.1,
-          duration: 0.8,
-          ease: "power3.out",
-          delay: 0.3,
-        });
-      }, ref);
-      return () => ctx.revert();
-    });
-    return () => mm.revert();
-  }, []);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -62,7 +43,7 @@ export default function ContactPage() {
   };
 
   return (
-    <main ref={ref}>
+    <main>
       <PageHero
         tag="Get In Touch"
         title={"Let's Talk\nAbout Your Project"}
@@ -70,12 +51,12 @@ export default function ContactPage() {
       />
 
       <section className="py-16 md:py-24 px-6 md:px-12 lg:px-20">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24">
+        <Reveal variant="stagger" immediate delay={0.3} y={40} className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24">
           {/* Form */}
-          <div className="contact-reveal">
+          <div>
             {submitted ? (
               <div className="bg-warm border border-glass p-12 text-center">
-                <div className="w-16 h-px bg-navy mx-auto mb-6" />
+                <div className="w-16 h-px bg-accent mx-auto mb-6" />
                 <h3 className="font-bebas text-3xl text-navy mb-3">Message Sent</h3>
                 <p className="text-gray-600">We&apos;ll get back to you within one business day.</p>
               </div>
@@ -92,7 +73,7 @@ export default function ContactPage() {
                       type="text"
                       name="name"
                       required
-                      className="w-full border border-glass px-4 py-3 text-sm focus:outline-none focus:border-navy transition-colors bg-transparent"
+                      className="w-full border border-glass px-4 py-3.5 text-base focus:outline-none focus:border-accent-ink transition-colors bg-transparent"
                       placeholder="Your name"
                     />
                   </div>
@@ -103,7 +84,7 @@ export default function ContactPage() {
                     <input
                       type="text"
                       name="company"
-                      className="w-full border border-glass px-4 py-3 text-sm focus:outline-none focus:border-navy transition-colors bg-transparent"
+                      className="w-full border border-glass px-4 py-3.5 text-base focus:outline-none focus:border-accent-ink transition-colors bg-transparent"
                       placeholder="Company name"
                     />
                   </div>
@@ -117,7 +98,7 @@ export default function ContactPage() {
                       type="email"
                       name="email"
                       required
-                      className="w-full border border-glass px-4 py-3 text-sm focus:outline-none focus:border-navy transition-colors bg-transparent"
+                      className="w-full border border-glass px-4 py-3.5 text-base focus:outline-none focus:border-accent-ink transition-colors bg-transparent"
                       placeholder="email@company.com"
                     />
                   </div>
@@ -128,7 +109,7 @@ export default function ContactPage() {
                     <input
                       type="tel"
                       name="phone"
-                      className="w-full border border-glass px-4 py-3 text-sm focus:outline-none focus:border-navy transition-colors bg-transparent"
+                      className="w-full border border-glass px-4 py-3.5 text-base focus:outline-none focus:border-accent-ink transition-colors bg-transparent"
                       placeholder="(555) 000-0000"
                     />
                   </div>
@@ -137,7 +118,7 @@ export default function ContactPage() {
                   <label className="block text-xs font-semibold uppercase tracking-wider text-silver-dark mb-2">
                     Project Type
                   </label>
-                  <select name="projectType" className="w-full border border-glass px-4 py-3 text-sm focus:outline-none focus:border-navy transition-colors bg-transparent text-gray-700">
+                  <select name="projectType" className="w-full border border-glass px-4 py-3.5 text-base focus:outline-none focus:border-accent-ink transition-colors bg-transparent text-gray-700">
                     <option value="">Select a project type</option>
                     <option value="curtain-wall">Curtain Wall</option>
                     <option value="windows">Window Systems</option>
@@ -154,7 +135,7 @@ export default function ContactPage() {
                     name="message"
                     required
                     rows={5}
-                    className="w-full border border-glass px-4 py-3 text-sm focus:outline-none focus:border-navy transition-colors bg-transparent resize-none"
+                    className="w-full border border-glass px-4 py-3.5 text-base focus:outline-none focus:border-accent-ink transition-colors bg-transparent resize-none"
                     placeholder="Scope, location, timeline, or just a question."
                   />
                 </div>
@@ -169,7 +150,7 @@ export default function ContactPage() {
           </div>
 
           {/* Contact Info */}
-          <div className="contact-reveal space-y-10">
+          <div className="space-y-10">
             <div>
               <h3 className="font-bebas text-2xl text-navy mb-4">Office</h3>
               <div className="space-y-2 text-gray-600 text-sm">
@@ -212,7 +193,7 @@ export default function ContactPage() {
               />
             </div>
           </div>
-        </div>
+        </Reveal>
       </section>
     </main>
   );
