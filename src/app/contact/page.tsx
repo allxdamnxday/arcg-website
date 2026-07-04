@@ -60,8 +60,7 @@ export default function ContactPage() {
             <div>
               <h2 className="font-bebas text-h3 text-navy mb-4">License</h2>
               <p className="text-sm text-gray-600">CA Contractor License C17-621340</p>
-              {/* TODO(arcg): confirm Local 433 for public use — until then "Union signatory contractor" */}
-              <p className="text-sm text-gray-600">Ironworkers Local 433 signatory</p>
+              <p className="text-sm text-gray-600">Union signatory, nationwide</p>
               <p className="text-sm text-gray-600">Prequal package on request</p>
             </div>
 

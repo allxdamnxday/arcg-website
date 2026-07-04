@@ -25,7 +25,8 @@ const PAD_Y: Record<Size, string> = {
 const TONE: Record<Tone, string> = {
   light: "",
   warm: "bg-warm",
-  navy: "bg-navy text-white",
+  // Subtle top-to-bottom depth on dark sections — part of the tonal ladder.
+  navy: "bg-gradient-to-b from-navy to-navy-deep text-white",
   "navy-deep": "bg-navy-deep text-white",
 };
 

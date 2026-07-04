@@ -12,7 +12,7 @@ export default function ProjectsPage() {
     <main id="main">
       <PageHero
         tag="Our Work"
-        title={"Selected\nProjects"}
+        title={"Work We've\nGlazed"}
         subtitle="High-rise curtain wall, specialty glazing, and commercial storefront from recent years."
       />
 
@@ -27,7 +27,7 @@ export default function ProjectsPage() {
             >
               <Link
                 href={`/projects/${project.slug}`}
-                className={`group relative overflow-hidden rounded-sm cursor-pointer block bg-glass ${
+                className={`group relative overflow-hidden rounded-sm cursor-pointer block bg-glass transition-[transform,box-shadow] duration-300 ease-out-quart hover:-translate-y-1 hover:shadow-2xl motion-reduce:transform-none ${
                   i === 0 ? "aspect-[4/3] md:aspect-[16/9]" : "aspect-[4/3]"
                 }`}
               >

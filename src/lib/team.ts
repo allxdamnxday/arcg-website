@@ -14,7 +14,7 @@ export const team: TeamMember[] = [
   {
     name: "Alfonso Rodriguez",
     role: "Owner / Principal",
-    bio: "Decades in the field before founding ARCG. Final word on means and methods.",
+    bio: "Decades in the field before founding AR Contract Glazing. Final word on means and methods.",
     forGCs: "Walks the tough conditions himself.",
   },
   {

@@ -3,6 +3,9 @@
 @theme {
   --color-navy: #1a3a5c;
   --color-navy-deep: #0f1f2e;
+  /* Deepest floor — grounds the footer and anchors the dark tonal ladder:
+     navy-raised < navy < navy-deep < ink. No new hue, just depth. */
+  --color-ink: #0a1622;
   /* Raised/hover surface on navy sections — stays blue instead of white-washing
      the way bg-white/5 does. */
   --color-navy-raised: #1f4468;

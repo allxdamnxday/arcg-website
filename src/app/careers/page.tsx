@@ -53,7 +53,7 @@ const openings = [
 
 // TODO(arcg): confirm union benefits phrasing; do not publish dollar figures without sign-off.
 const why = [
-  { title: "Pay & Benefits", desc: "Scale wages and benefits per the Local 433 agreement on union jobs. Health, pension, and PTO." },
+  { title: "Pay & Benefits", desc: "Scale wages and benefits per the local union agreement on union jobs. Health, pension, and PTO." },
   { title: "Real Projects", desc: "High-rises and commercial buildings you can drive past and point to. The kind of jobs worth showing up for." },
   { title: "Steady Work", desc: "We keep a steady backlog. When one job wraps, the next one's already lined up, so the work doesn't dry up between projects." },
   { title: "Respect", desc: "We treat the crew like the professionals they are. Show up, do good work, and you'll be treated right." },
@@ -73,7 +73,7 @@ export default function CareersPage() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
           <Reveal start="top 85%" className="lg:col-span-4">
             <div className="w-12 h-px bg-accent mb-6" />
-            <h2 className="font-bebas text-h2 text-navy">Why ARCG?</h2>
+            <h2 className="font-bebas text-h2 text-navy">Why AR Contract Glazing?</h2>
           </Reveal>
           <Reveal variant="stagger" start="top 85%" className="lg:col-span-7 lg:col-start-6 grid grid-cols-1 md:grid-cols-2 gap-8">
             {why.map((item, i) => (
@@ -95,7 +95,7 @@ export default function CareersPage() {
 
         <div className="space-y-6 max-w-4xl">
           {openings.map((job, i) => (
-            <Reveal key={i} start="top 85%" className="bg-white border border-glass p-8 md:p-10">
+            <Reveal key={i} start="top 85%" className="bg-white border border-glass p-8 md:p-10 transition-[transform,box-shadow] duration-300 ease-out-quart hover:-translate-y-1 hover:shadow-2xl hover:border-glass/0 motion-reduce:transform-none">
               <div className="flex flex-col md:flex-row md:items-start md:justify-between mb-4">
                 <div>
                   <h3 className="font-bebas text-h3 text-navy">{job.title}</h3>

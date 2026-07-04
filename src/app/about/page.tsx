@@ -32,8 +32,7 @@ export default function AboutPage() {
             <div className="space-y-4 text-base text-gray-600 leading-relaxed">
               <p>
                 Alfonso Rodriguez started AR Contract Glazing to run a glazing company the way
-                he&apos;d want to work for one: do the job right, take care of the crew, and stand
-                behind the work.
+                he&apos;d want to work for one: take care of the crew, and stand behind every job.
               </p>
               <p>
                 We started with a small crew on mid-rise jobs around Los Angeles. Today we install
@@ -100,7 +99,7 @@ export default function AboutPage() {
         <Reveal className="max-w-5xl">
           <div className="w-12 h-px bg-accent mb-6" />
           <h2 className="font-bebas text-h2 text-navy mb-8">Credentials</h2>
-          {/* TODO(arcg): confirm license entity matches CSLB record, cert list, Local 433 status, and bonding/EMR values before swapping "In prequal package" for real numbers */}
+          {/* TODO(arcg): confirm license entity matches CSLB record + cert list, and swap bonding/EMR "In prequal package" for real numbers. Union: signatory nationwide (all unions), confirmed by owner. */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div>
               <h3 className="font-semibold text-navy mb-3">License &amp; Safety</h3>
@@ -124,7 +123,8 @@ export default function AboutPage() {
             <div>
               <h3 className="font-semibold text-navy mb-3">Union</h3>
               <ul className="space-y-2 text-gray-600 text-sm">
-                <li>Ironworkers Local 433 signatory</li>
+                <li>Union signatory, nationwide</li>
+                <li>We sign with the local wherever the job is</li>
                 <li>Union and open-shop capable — we staff both</li>
               </ul>
             </div>

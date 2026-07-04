@@ -3,6 +3,7 @@
 import { useEffect, useRef } from "react";
 import { preload } from "react-dom";
 import Link from "next/link";
+import Image from "next/image";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { track } from "@vercel/analytics";
@@ -244,8 +245,7 @@ export default function Home() {
         <div className="px-6 md:px-12 lg:px-20 py-6 flex flex-wrap items-center justify-center gap-x-8 gap-y-3 text-xs font-semibold uppercase tracking-[0.15em] text-silver-dark">
           <span className="cred-item">California C17-621340</span>
           <span className="hidden sm:inline text-glass">·</span>
-          {/* TODO(arcg): confirm Local 433 for public use — else "Union Signatory" */}
-          <span className="cred-item">Ironworkers Local 433</span>
+          <span className="cred-item">Union Signatory, Nationwide</span>
           <span className="hidden sm:inline text-glass">·</span>
           <span className="cred-item">Bonded &amp; Insured</span>
           <span className="hidden sm:inline text-glass">·</span>
@@ -257,8 +257,8 @@ export default function Home() {
       <section ref={workRef} className="py-24 md:py-36 px-6 md:px-12 lg:px-20">
         <SectionHeader
           tag="Selected Work"
-          title="Recent Projects"
-          subtitle="12 stories next to SoFi Stadium. A flagship on Rodeo Drive. Jobs we put our name on."
+          title="Jobs We Put Our Name On"
+          subtitle="12 stories next to SoFi Stadium. A flagship on Rodeo Drive."
           className="mb-12"
         />
 
@@ -267,8 +267,29 @@ export default function Home() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-glass">
           {getFeaturedProjects().map((project) => {
             const status = project.stats.find((s) => s.label === "Status")?.value;
+            const thumb = (
+              <div className="relative aspect-[3/2] overflow-hidden bg-gradient-to-br from-navy to-navy-deep">
+                {project.live && project.image ? (
+                  <Image
+                    src={project.image}
+                    alt={project.title}
+                    fill
+                    sizes="(min-width: 768px) 33vw, 100vw"
+                    placeholder="blur"
+                    className="object-cover transition-transform duration-500 ease-out-quart group-hover:scale-105 motion-reduce:group-hover:scale-100"
+                  />
+                ) : (
+                  // Branded mullion placeholder — decorative, not a fake photo. Becomes
+                  // a real thumbnail automatically once the project goes live.
+                  <>
+                    <GlassGrid cellX={44} cellY={72} opacity={0.3} />
+                    <span aria-hidden className="absolute bottom-5 left-6 w-10 h-px bg-accent/60" />
+                  </>
+                )}
+              </div>
+            );
             const inner = (
-              <>
+              <div className="p-8 md:p-10 flex flex-col flex-1">
                 <p className="eyebrow text-steel-ink mb-4 transition-colors duration-300 ease-out-quart group-hover:text-accent-ink">
                   {project.sector} · {project.location}
                 </p>
@@ -281,13 +302,13 @@ export default function Home() {
                     {project.year}{status ? ` · ${status}` : ""}
                   </p>
                 </div>
-              </>
+              </div>
             );
-            const cardClass = "work-card group bg-white p-8 md:p-10 flex flex-col transition-colors duration-300 ease-out-quart hover:bg-warm";
+            const cardClass = "work-card group relative z-0 bg-white flex flex-col overflow-hidden transition-[transform,box-shadow,background-color] duration-300 ease-out-quart hover:bg-warm hover:-translate-y-1 hover:scale-[1.01] hover:shadow-2xl hover:z-10 motion-reduce:transform-none motion-reduce:hover:scale-100";
             return project.live ? (
-              <Link key={project.slug} href={`/projects/${project.slug}`} className={cardClass}>{inner}</Link>
+              <Link key={project.slug} href={`/projects/${project.slug}`} className={cardClass}>{thumb}{inner}</Link>
             ) : (
-              <div key={project.slug} className={cardClass}>{inner}</div>
+              <div key={project.slug} className={cardClass}>{thumb}{inner}</div>
             );
           })}
         </div>
@@ -304,7 +325,7 @@ export default function Home() {
       </section>
 
       {/* SERVICES */}
-      <section ref={servicesRef} className="relative overflow-hidden py-24 md:py-36 px-6 md:px-12 lg:px-20 bg-navy text-white">
+      <section ref={servicesRef} className="relative overflow-hidden py-24 md:py-36 px-6 md:px-12 lg:px-20 bg-gradient-to-b from-navy to-navy-deep text-white">
         <GlassGrid cellX={76} cellY={128} opacity={0.1} />
         <div className="relative z-10">
         <SectionHeader
@@ -318,7 +339,7 @@ export default function Home() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-px bg-white/10">
           {services.map((s) => (
-            <div key={s.title} className="service-card bg-navy p-8 md:p-10 group hover:bg-navy-raised active:bg-navy-raised transition-colors duration-300 ease-out-quart">
+            <div key={s.title} className="service-card relative z-0 bg-navy p-8 md:p-10 group transition-[transform,background-color,box-shadow] duration-300 ease-out-quart hover:bg-navy-raised active:bg-navy-raised hover:-translate-y-1 hover:z-10 hover:ring-1 hover:ring-accent/30 motion-reduce:transform-none">
               <div className="w-10 h-px bg-steel mb-6 group-hover:w-16 group-hover:bg-accent transition-all duration-300 ease-out-quart" />
               <h3 className="font-bebas text-h3 mb-3">{s.title}</h3>
               <p className="text-sm text-white/70 leading-relaxed">{s.summary}</p>

@@ -18,7 +18,7 @@ type ButtonProps = SharedProps & {
   Omit<AnchorHTMLAttributes<HTMLAnchorElement>, keyof SharedProps | "href">;
 
 const BASE =
-  "inline-flex items-center justify-center min-h-[44px] font-semibold uppercase tracking-widest transition-[background-color,color,border-color,transform] duration-200 ease-out-quart active:translate-y-px focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed";
+  "inline-flex items-center justify-center min-h-[44px] font-semibold uppercase tracking-widest transition-[background-color,color,border-color,transform,box-shadow] duration-200 ease-out-quart active:translate-y-px focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed";
 
 const SIZE: Record<Size, string> = {
   md: "px-10 py-4 text-sm",
@@ -29,9 +29,9 @@ const SIZE: Record<Size, string> = {
 // rings use accent-ink on light variants; the white variant only appears on navy
 // sections, where accent is 6.48:1.
 const VARIANT: Record<Variant, string> = {
-  primary: "bg-navy text-white hover:bg-steel-ink active:bg-navy-deep focus-visible:ring-accent-ink",
+  primary: "bg-navy text-white hover:bg-steel-ink hover:shadow-lg active:bg-navy-deep focus-visible:ring-accent-ink",
   ghost: "border-2 border-navy text-navy hover:bg-navy hover:text-white active:bg-navy-deep active:text-white focus-visible:ring-accent-ink",
-  white: "bg-white text-navy hover:bg-steel-ink hover:text-white active:bg-navy focus-visible:ring-accent",
+  white: "bg-white text-navy hover:bg-steel-ink hover:text-white hover:shadow-lg active:bg-navy focus-visible:ring-accent",
 };
 
 function Spinner() {
