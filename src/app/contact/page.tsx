@@ -1,182 +1,68 @@
-"use client";
-
-import { useState } from "react";
+import { Suspense } from "react";
 import PageHero from "@/components/PageHero";
-import Button from "@/components/Button";
-import Reveal from "@/components/Reveal";
+import ContactForm from "@/components/ContactForm";
+
+const NEXT_STEPS = [
+  "We confirm receipt within one business day.",
+  "We walk the drawings and call with questions.",
+  "You get a number by your bid date.",
+];
 
 export default function ContactPage() {
-  const [submitted, setSubmitted] = useState(false);
-  const [submitting, setSubmitting] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setSubmitting(true);
-    setError(null);
-    const fd = new FormData(e.currentTarget);
-    const payload = {
-      name: fd.get("name"),
-      company: fd.get("company"),
-      email: fd.get("email"),
-      phone: fd.get("phone"),
-      projectType: fd.get("projectType"),
-      message: fd.get("message"),
-      website: fd.get("website"),
-    };
-    try {
-      const res = await fetch("/api/contact", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
-      if (!res.ok) {
-        const data = await res.json().catch(() => ({}));
-        throw new Error(data.error || "Something went wrong. Please try again or email info@arcontractglazing.com directly.");
-      }
-      setSubmitted(true);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "Something went wrong.");
-    } finally {
-      setSubmitting(false);
-    }
-  };
-
   return (
-    <main>
+    <main id="main">
       <PageHero
-        tag="Get In Touch"
-        title={"Let's Talk\nAbout Your Project"}
-        subtitle="Send us the scope and drawings, or just a question. We answer fast."
+        tag="Request a Bid"
+        title={"Send Us\nThe Drawings"}
+        subtitle="Bid invites, plan links, scope questions. We confirm receipt within one business day."
       />
 
       <section className="py-16 md:py-24 px-6 md:px-12 lg:px-20">
-        <Reveal variant="stagger" immediate delay={0.3} y={40} className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24">
           {/* Form */}
           <div>
-            {submitted ? (
-              <div className="bg-warm border border-glass p-12 text-center">
-                <div className="w-16 h-px bg-accent mx-auto mb-6" />
-                <h3 className="font-bebas text-3xl text-navy mb-3">Message Sent</h3>
-                <p className="text-gray-600">We&apos;ll get back to you within one business day.</p>
-              </div>
-            ) : (
-              <form onSubmit={handleSubmit} className="space-y-6">
-                {/* Honeypot — real users leave this blank */}
-                <input type="text" name="website" tabIndex={-1} autoComplete="off" className="hidden" aria-hidden="true" />
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div>
-                    <label className="block text-xs font-semibold uppercase tracking-wider text-silver-dark mb-2">
-                      Name *
-                    </label>
-                    <input
-                      type="text"
-                      name="name"
-                      required
-                      className="w-full border border-glass px-4 py-3.5 text-base focus:outline-none focus:border-accent-ink transition-colors bg-transparent"
-                      placeholder="Your name"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-xs font-semibold uppercase tracking-wider text-silver-dark mb-2">
-                      Company
-                    </label>
-                    <input
-                      type="text"
-                      name="company"
-                      className="w-full border border-glass px-4 py-3.5 text-base focus:outline-none focus:border-accent-ink transition-colors bg-transparent"
-                      placeholder="Company name"
-                    />
-                  </div>
-                </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div>
-                    <label className="block text-xs font-semibold uppercase tracking-wider text-silver-dark mb-2">
-                      Email *
-                    </label>
-                    <input
-                      type="email"
-                      name="email"
-                      required
-                      className="w-full border border-glass px-4 py-3.5 text-base focus:outline-none focus:border-accent-ink transition-colors bg-transparent"
-                      placeholder="email@company.com"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-xs font-semibold uppercase tracking-wider text-silver-dark mb-2">
-                      Phone
-                    </label>
-                    <input
-                      type="tel"
-                      name="phone"
-                      className="w-full border border-glass px-4 py-3.5 text-base focus:outline-none focus:border-accent-ink transition-colors bg-transparent"
-                      placeholder="(555) 000-0000"
-                    />
-                  </div>
-                </div>
-                <div>
-                  <label className="block text-xs font-semibold uppercase tracking-wider text-silver-dark mb-2">
-                    Project Type
-                  </label>
-                  <select name="projectType" className="w-full border border-glass px-4 py-3.5 text-base focus:outline-none focus:border-accent-ink transition-colors bg-transparent text-gray-700">
-                    <option value="">Select a project type</option>
-                    <option value="curtain-wall">Curtain Wall</option>
-                    <option value="windows">Window Systems</option>
-                    <option value="storefront">Storefront & Entrances</option>
-                    <option value="specialty">Specialty Glazing</option>
-                    <option value="other">Other</option>
-                  </select>
-                </div>
-                <div>
-                  <label className="block text-xs font-semibold uppercase tracking-wider text-silver-dark mb-2">
-                    Message *
-                  </label>
-                  <textarea
-                    name="message"
-                    required
-                    rows={5}
-                    className="w-full border border-glass px-4 py-3.5 text-base focus:outline-none focus:border-accent-ink transition-colors bg-transparent resize-none"
-                    placeholder="Scope, location, timeline, or just a question."
-                  />
-                </div>
-                {error && (
-                  <p className="text-sm text-red-600" role="alert">{error}</p>
-                )}
-                <Button type="submit" loading={submitting}>
-                  {submitting ? "Sending..." : "Send Message"}
-                </Button>
-              </form>
-            )}
+            <Suspense fallback={null}>
+              <ContactForm />
+            </Suspense>
           </div>
 
           {/* Contact Info */}
           <div className="space-y-10">
             <div>
-              <h3 className="font-bebas text-2xl text-navy mb-4">Office</h3>
+              <h2 className="font-bebas text-h3 text-navy mb-6">What Happens Next</h2>
+              <ol className="divide-y divide-glass">
+                {NEXT_STEPS.map((step, i) => (
+                  <li key={i} className="flex gap-5 py-4 first:pt-0">
+                    <span className="font-bebas text-2xl leading-none text-navy/15">{String(i + 1).padStart(2, "0")}</span>
+                    <p className="text-sm text-gray-600 leading-relaxed pt-1">{step}</p>
+                  </li>
+                ))}
+              </ol>
+            </div>
+            <div>
+              <h2 className="font-bebas text-h3 text-navy mb-4">Office</h2>
               <div className="space-y-2 text-gray-600 text-sm">
                 <p>726 S Santa Fe #400</p>
                 <p>Los Angeles, CA 90021</p>
               </div>
             </div>
             <div>
-              <h3 className="font-bebas text-2xl text-navy mb-4">Direct</h3>
+              <h2 className="font-bebas text-h3 text-navy mb-4">Direct</h2>
               <div className="space-y-2 text-sm">
                 <p>
-                  <a href="tel:2132937298" className="text-gray-600 hover:text-navy transition-colors">
-                    (213) 293-7298
-                  </a>
+                  <a href="tel:2132937298" className="text-gray-600 hover:text-navy link-underline">(213) 293-7298</a>
                 </p>
                 <p>
-                  <a href="mailto:info@arcontractglazing.com" className="text-gray-600 hover:text-navy transition-colors">
-                    info@arcontractglazing.com
-                  </a>
+                  <a href="mailto:info@arcontractglazing.com" className="text-gray-600 hover:text-navy link-underline">info@arcontractglazing.com</a>
                 </p>
               </div>
             </div>
             <div>
-              <h3 className="font-bebas text-2xl text-navy mb-4">License</h3>
+              <h2 className="font-bebas text-h3 text-navy mb-4">License</h2>
               <p className="text-sm text-gray-600">CA Contractor License C17-621340</p>
-              <p className="text-sm text-gray-600">Union signatory contractor</p>
+              {/* TODO(arcg): confirm Local 433 for public use — until then "Union signatory contractor" */}
+              <p className="text-sm text-gray-600">Ironworkers Local 433 signatory</p>
+              <p className="text-sm text-gray-600">Prequal package on request</p>
             </div>
 
             {/* Map */}
@@ -193,7 +79,7 @@ export default function ContactPage() {
               />
             </div>
           </div>
-        </Reveal>
+        </div>
       </section>
     </main>
   );

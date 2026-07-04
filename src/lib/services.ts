@@ -1,13 +1,25 @@
+import type { StaticImageData } from "next/image";
+// Real CompanyCam photos from the Kali Hotel job (vision-curated, hand-verified:
+// no GC/other-sub branding, timestamps cropped). Static imports give a free blur.
+import curtainWall from "../images/services/curtain-wall.webp";
+import windowSystems from "../images/services/window-systems.webp";
+import storefront from "../images/services/storefront.webp";
+import specialtyGlazing from "../images/services/specialty-glazing.webp";
+import layoutCoordination from "../images/services/layout.webp";
+import qaqc from "../images/services/qaqc.webp";
+
 export interface Service {
+  slug: string;
   title: string;
   summary: string;
   description: string;
   features: string[];
-  image: string;
+  image: string | StaticImageData;
 }
 
 export const services: Service[] = [
   {
+    slug: "curtain-wall",
     title: "Curtain Wall Systems",
     summary:
       "High-rise unitized and stick-built curtain wall. Our core work, every floor and every condition.",
@@ -20,9 +32,10 @@ export const services: Service[] = [
       "Pressure-equalized systems",
       "Multi-story span systems",
     ],
-    image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&q=80",
+    image: curtainWall,
   },
   {
+    slug: "window-systems",
     title: "Window Systems",
     summary:
       "Punch windows, ribbon windows, and operable units. Plumb, level, and weathertight.",
@@ -35,9 +48,10 @@ export const services: Service[] = [
       "Thermally broken frames",
       "High-performance glazing",
     ],
-    image: "/services/window-systems.png",
+    image: windowSystems,
   },
   {
+    slug: "storefront-entrances",
     title: "Storefront & Entrances",
     summary:
       "Ground-level storefront, entrances, and doors for commercial and retail.",
@@ -50,9 +64,10 @@ export const services: Service[] = [
       "Vestibule assemblies",
       "ADA-compliant hardware",
     ],
-    image: "/services/storefront.png",
+    image: storefront,
   },
   {
+    slug: "specialty-glazing",
     title: "Specialty Glazing",
     summary:
       "Glass railings, skylights, canopies, and custom architectural glass.",
@@ -65,9 +80,10 @@ export const services: Service[] = [
       "Custom architectural features",
       "Point-supported glazing",
     ],
-    image: "/services/specialty-glazing.png",
+    image: specialtyGlazing,
   },
   {
+    slug: "layout-coordination",
     title: "Layout & Coordination",
     summary:
       "Field survey, BIM coordination, and layout. We find the clashes before they hit the field.",
@@ -80,9 +96,10 @@ export const services: Service[] = [
       "Embed & anchor placement",
       "Tolerance management",
     ],
-    image: "/services/layout.png",
+    image: layoutCoordination,
   },
   {
+    slug: "qaqc-closeout",
     title: "QA/QC & Closeout",
     summary:
       "Water testing, thermal imaging, and punch list tracking through closeout.",
@@ -95,6 +112,6 @@ export const services: Service[] = [
       "Punch list management",
       "Closeout documentation",
     ],
-    image: "/services/qaqc.png",
+    image: qaqc,
   },
 ];

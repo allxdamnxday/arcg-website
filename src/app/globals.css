@@ -3,21 +3,57 @@
 @theme {
   --color-navy: #1a3a5c;
   --color-navy-deep: #0f1f2e;
+  /* Raised/hover surface on navy sections — stays blue instead of white-washing
+     the way bg-white/5 does. */
+  --color-navy-raised: #1f4468;
   --color-steel: #4a7fa5;
+  /* Text-safe steel. Plain --color-steel is 4.31:1 on white → decorative /
+     large-display only; use steel-ink (5.93:1 both directions) for body/label text. */
+  --color-steel-ink: #3c688a;
   --color-silver: #A8B5C2;
-  --color-silver-dark: #6b7d91;
+  /* Darkened from #6b7d91 (was 3.6–4.2:1 on light labels, failing AA) to hit
+     4.64:1 on glass / 5.18:1 on warm / 5.46:1 on white. */
+  --color-silver-dark: #5b6b7d;
   --color-glass: #e8edf2;
   --color-warm: #f8f9fa;
-  /* Azure accent. Bright azure is for dark backgrounds, hairlines, glows, focus
-     and large non-text only — it fails WCAG as text on light (~1.8:1 on white).
-     Use accent-ink for any accent text/link on light (~5.9:1 on white, ~5.6:1 on warm). */
+  /* Azure accent. Usage law: hairlines, focus rings, glows, and large numerals on
+     DARK surfaces only; the short heading rule is the sole sanctioned azure-on-light
+     use. It fails WCAG as text on light (~1.8:1 on white). Use accent-ink for any
+     accent text/link/focus ring on light (~5.9:1 on white, ~5.6:1 on warm).
+     GlassGrid: accent on dark surfaces, steel on light surfaces, never >0.2 on light. */
   --color-accent: #2dd4e8;
   --color-accent-ink: #0b6e80;
+
+  /* Fluid type scale — linear interpolation 375px → 1440px (size = min + (max-min) *
+     (100vw - 375px) / 1065). Bebas tracking is baked in per level: negative tracking
+     clogs Bebas counters below 40px, so it eases from -0.02em (display) to 0 (h3). */
+  --text-display: clamp(56px, 33.5px + 6vw, 120px);
+  --text-display--line-height: 0.9;
+  --text-display--letter-spacing: -0.02em;
+  --text-h1: clamp(40px, 25.9px + 3.76vw, 80px);
+  --text-h1--line-height: 0.95;
+  --text-h1--letter-spacing: -0.015em;
+  --text-h2: clamp(32px, 23.5px + 2.25vw, 56px);
+  --text-h2--line-height: 1;
+  --text-h2--letter-spacing: -0.01em;
+  --text-h3: clamp(24px, 20.5px + 0.94vw, 34px);
+  --text-h3--line-height: 1.05;
+  --text-h3--letter-spacing: 0em;
+
+  /* Motion. --ease-glass is the panel-wipe curve, now reusable; the GSAP twin of
+     the signature structural ease lives in src/lib/motion.ts (arcgStruct). */
+  --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+  --ease-glass: cubic-bezier(0.76, 0, 0.24, 1);
 }
 
 html {
-  scroll-behavior: smooth;
   -webkit-font-smoothing: antialiased;
+  color-scheme: light;
+}
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
 }
 
 body {
@@ -28,6 +64,35 @@ body {
 
 .font-bebas {
   font-family: var(--font-bebas), sans-serif;
+}
+
+@layer components {
+  /* Kicker/eyebrow label. Color stays per-context: text-accent-ink on light,
+     text-accent on dark, text-silver on imagery. */
+  .eyebrow {
+    @apply text-xs font-semibold uppercase tracking-[0.2em];
+  }
+
+  /* Mullion-hairline link underline: a 1px rule that draws left-to-right on
+     hover/focus and persists on the current page. currentColor, so it inherits
+     link color. */
+  .link-underline {
+    background-image: linear-gradient(currentColor, currentColor);
+    background-size: 0% 1px;
+    background-position: 0 100%;
+    background-repeat: no-repeat;
+    transition: background-size 0.3s var(--ease-out-quart), color 0.2s var(--ease-out-quart);
+  }
+  .link-underline:hover,
+  .link-underline:focus-visible,
+  .link-underline[aria-current="page"] {
+    background-size: 100% 1px;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .link-underline {
+      transition: color 0.2s ease;
+    }
+  }
 }
 
 /* Lenis smooth scroll — these classes are only present while Lenis is active
@@ -91,8 +156,48 @@ html.lenis body {
 .route-transition__panel:nth-child(5) {
   animation-delay: 0.16s;
 }
+/* Reduced-motion route transition: no vertical wipe, just a single navy sheet
+   fading out (opacity-only is vestibular-safe) so navigation still reads as a
+   deliberate transition instead of a hard cut. */
+@keyframes rt-fade {
+  to {
+    opacity: 0;
+  }
+}
 @media (prefers-reduced-motion: reduce) {
+  .route-transition__panel {
+    animation: none;
+    transform: scaleY(1);
+    border-right: 0;
+  }
   .route-transition {
-    display: none;
+    animation: rt-fade 0.3s ease-out 0.05s forwards;
+  }
+}
+
+/* Print: GSAP from() holds below-fold sections at opacity:0 / clipped until
+   scrolled into view, so without this reset a printed page is mostly blank.
+   The universal reset un-sticks every GSAP-initialized element; nav/footer/video
+   are dropped (the dark footer would print white-on-white anyway). */
+@media print {
+  nav,
+  footer,
+  .route-transition,
+  video,
+  iframe {
+    display: none !important;
+  }
+  * {
+    opacity: 1 !important;
+    transform: none !important;
+    clip-path: none !important;
+    animation: none !important;
+    transition: none !important;
+  }
+  body {
+    color: #000;
+  }
+  main {
+    padding-top: 0 !important;
   }
 }

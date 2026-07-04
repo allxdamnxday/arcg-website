@@ -2,11 +2,14 @@ import Link from "next/link";
 import Image from "next/image";
 import PageHero from "@/components/PageHero";
 import Reveal from "@/components/Reveal";
-import { projects } from "@/lib/projects";
+import { getLiveProjects } from "@/lib/projects";
+import { BLUR_NAVY } from "@/lib/image";
+
+const projects = getLiveProjects();
 
 export default function ProjectsPage() {
   return (
-    <main>
+    <main id="main">
       <PageHero
         tag="Our Work"
         title={"Selected\nProjects"}
@@ -24,8 +27,8 @@ export default function ProjectsPage() {
             >
               <Link
                 href={`/projects/${project.slug}`}
-                className={`group relative overflow-hidden rounded-sm cursor-pointer block ${
-                  i === 0 ? "aspect-[4/3] md:aspect-[21/9]" : "aspect-[4/3]"
+                className={`group relative overflow-hidden rounded-sm cursor-pointer block bg-glass ${
+                  i === 0 ? "aspect-[4/3] md:aspect-[16/9]" : "aspect-[4/3]"
                 }`}
               >
                 <Image
@@ -33,16 +36,18 @@ export default function ProjectsPage() {
                   alt={project.title}
                   fill
                   sizes={i === 0 ? "100vw" : "(min-width: 768px) 50vw, 100vw"}
-                  className="object-cover group-hover:scale-105 group-active:scale-105 transition-transform duration-700"
+                  placeholder="blur"
+                  blurDataURL={typeof project.image === "string" ? BLUR_NAVY : undefined}
+                  className="object-cover transition-transform duration-700 ease-out-quart group-hover:scale-[1.03] group-active:scale-[1.03] motion-reduce:transition-none motion-reduce:group-hover:scale-100"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-navy-deep/80 via-navy-deep/25 to-transparent" />
                 <div className="absolute bottom-0 left-0 p-6 md:p-8 lg:p-12">
-                  <p className="text-xs font-semibold uppercase tracking-[0.2em] text-silver mb-2">
-                    {project.client} · {project.location}
+                  <p className="eyebrow text-silver mb-2">
+                    {project.sector} · {project.location}
                   </p>
                   <h3
                     className={`font-bebas text-white ${
-                      i === 0 ? "text-4xl md:text-6xl" : "text-3xl md:text-4xl"
+                      i === 0 ? "text-h1" : "text-h3"
                     }`}
                   >
                     {project.title}

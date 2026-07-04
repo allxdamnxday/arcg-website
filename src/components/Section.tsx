@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 
 type Tone = "light" | "warm" | "navy" | "navy-deep";
-type Size = "sm" | "md" | "lg";
+type Size = "sm" | "md" | "lg" | "xl";
 
 interface SectionProps {
   size?: Size;
@@ -12,10 +12,14 @@ interface SectionProps {
   as?: "section" | "div";
 }
 
+// Vertical rhythm law: sm = strips/bars, md = default content section,
+// lg = full-bleed statement sections (dark capability blocks), xl = final page
+// CTA only (one xl per page max).
 const PAD_Y: Record<Size, string> = {
   sm: "py-12 md:py-16",
   md: "py-16 md:py-24",
   lg: "py-24 md:py-36",
+  xl: "py-32 md:py-44",
 };
 
 const TONE: Record<Tone, string> = {

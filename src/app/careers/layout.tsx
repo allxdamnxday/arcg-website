@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import JsonLd from "@/components/JsonLd";
+import { breadcrumbJsonLd } from "@/lib/schema";
 
 export const metadata: Metadata = {
   title: "Careers",
@@ -8,5 +10,10 @@ export const metadata: Metadata = {
 };
 
 export default function CareersLayout({ children }: { children: React.ReactNode }) {
-  return children;
+  return (
+    <>
+      <JsonLd data={breadcrumbJsonLd([{ name: "Home", path: "/" }, { name: "Careers", path: "/careers" }])} />
+      {children}
+    </>
+  );
 }

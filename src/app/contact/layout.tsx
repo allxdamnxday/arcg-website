@@ -1,12 +1,19 @@
 import type { Metadata } from "next";
+import JsonLd from "@/components/JsonLd";
+import { breadcrumbJsonLd } from "@/lib/schema";
 
 export const metadata: Metadata = {
-  title: "Contact",
+  title: "Request a Bid",
   description:
-    "Get in touch with AR Contract Glazing. (213) 293-7298 · info@arcontractglazing.com · 726 S Santa Fe Ave, Los Angeles, CA 90021.",
+    "Send AR Contract Glazing your bid invite or plans. Commercial glazing bids for curtain wall, windows, and storefront. (213) 293-7298.",
   alternates: { canonical: "/contact" },
 };
 
 export default function ContactLayout({ children }: { children: React.ReactNode }) {
-  return children;
+  return (
+    <>
+      <JsonLd data={breadcrumbJsonLd([{ name: "Home", path: "/" }, { name: "Contact", path: "/contact" }])} />
+      {children}
+    </>
+  );
 }

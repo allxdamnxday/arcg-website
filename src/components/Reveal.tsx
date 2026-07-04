@@ -3,10 +3,11 @@
 import { useEffect, useRef, type ReactNode, type CSSProperties } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { EASE } from "@/lib/motion";
 
 gsap.registerPlugin(ScrollTrigger);
 
-type Variant = "fade-up" | "stagger" | "clip" | "glass";
+type Variant = "fade-up" | "stagger" | "clip" | "glass" | "line";
 
 interface RevealProps {
   children: ReactNode;
@@ -18,6 +19,8 @@ interface RevealProps {
   immediate?: boolean;
   /** Continuous scrubbed parallax, in yPercent (e.g. -12). Pair with clip/glass, not fade-up. */
   parallax?: number;
+  /** Anchor id passed through to the rendered wrapper. */
+  id?: string;
   className?: string;
   style?: CSSProperties;
 }
@@ -25,11 +28,12 @@ interface RevealProps {
 export default function Reveal({
   children,
   variant = "fade-up",
-  y = 50,
+  y = 40,
   start = "top 80%",
   delay = 0,
   immediate = false,
   parallax,
+  id,
   className,
   style,
 }: RevealProps) {
@@ -47,7 +51,7 @@ export default function Reveal({
             opacity: 0,
             y,
             duration: 0.8,
-            stagger: 0.1,
+            stagger: 0.09,
             delay,
             ease: "power3.out",
             scrollTrigger,
@@ -55,9 +59,9 @@ export default function Reveal({
         } else if (variant === "clip") {
           gsap.from(el, {
             clipPath: "inset(100% 0 0 0)",
-            duration: 1.4,
+            duration: 1.2,
             delay,
-            ease: "power4.inOut",
+            ease: EASE.struct,
             scrollTrigger,
           });
         } else if (variant === "glass") {
@@ -66,7 +70,17 @@ export default function Reveal({
             clipPath: "inset(0 0 0 100%)",
             duration: 1.1,
             delay,
-            ease: "power4.inOut",
+            ease: EASE.struct,
+            scrollTrigger,
+          });
+        } else if (variant === "line") {
+          // Structural rule drawing itself in from the left.
+          gsap.from(el, {
+            scaleX: 0,
+            transformOrigin: "left center",
+            duration: 1.1,
+            delay,
+            ease: EASE.struct,
             scrollTrigger,
           });
         } else {
@@ -94,7 +108,7 @@ export default function Reveal({
   }, [variant, y, start, delay, immediate, parallax]);
 
   return (
-    <div ref={ref} className={className} style={style}>
+    <div ref={ref} id={id} className={className} style={style}>
       {children}
     </div>
   );

@@ -3,6 +3,7 @@
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import GlassGrid from "@/components/GlassGrid";
+import { EASE } from "@/lib/motion";
 
 interface PageHeroProps {
   tag: string;
@@ -17,11 +18,12 @@ export default function PageHero({ tag, title, subtitle }: PageHeroProps) {
     const mm = gsap.matchMedia();
     mm.add("(prefers-reduced-motion: no-preference)", () => {
       const ctx = gsap.context(() => {
-        const tl = gsap.timeline();
-        tl.from(".page-hero-line", { width: 0, duration: 1, ease: "power4.inOut" })
-          .from(".page-hero-tag", { opacity: 0, y: 20, duration: 0.6 }, "-=0.5")
-          .from(".page-hero-title span", { y: 80, opacity: 0, duration: 0.8, stagger: 0.1, ease: "power4.out" }, "-=0.3")
-          .from(".page-hero-sub", { opacity: 0, y: 20, duration: 0.6 }, "-=0.2");
+        // delay 0.25 hands off from the route-transition panel wipe (see template.tsx).
+        const tl = gsap.timeline({ delay: 0.25, defaults: { ease: "power2.out" } });
+        tl.from(".page-hero-line", { scaleX: 0, duration: 0.9, ease: EASE.struct })
+          .from(".page-hero-tag", { opacity: 0, y: 16, duration: 0.5 }, "-=0.5")
+          .from(".page-hero-title span", { yPercent: 110, duration: 1.0, stagger: 0.09, ease: EASE.text }, "-=0.3")
+          .from(".page-hero-sub", { opacity: 0, y: 16, duration: 0.6 }, "-=0.55");
       }, ref);
       return () => ctx.revert();
     });
@@ -34,8 +36,9 @@ export default function PageHero({ tag, title, subtitle }: PageHeroProps) {
       <GlassGrid
         cellX={84}
         cellY={140}
-        opacity={0.35}
-        className="left-auto right-0 w-2/3"
+        color="var(--color-steel)"
+        opacity={0.18}
+        className="left-auto right-0 w-2/3 hidden md:block"
         style={{
           WebkitMaskImage: "linear-gradient(to right, transparent, black 75%)",
           maskImage: "linear-gradient(to right, transparent, black 75%)",
@@ -44,8 +47,8 @@ export default function PageHero({ tag, title, subtitle }: PageHeroProps) {
       <div className="relative grid grid-cols-12 gap-y-6">
         <div className="col-span-12">
           <div className="page-hero-line h-px bg-accent w-24 mb-8 origin-left" />
-          <p className="page-hero-tag text-xs font-semibold uppercase tracking-[0.2em] text-accent-ink mb-5">{tag}</p>
-          <h1 className="page-hero-title font-bebas text-[clamp(48px,9vw,132px)] text-navy leading-[0.92] tracking-[-0.01em] overflow-hidden">
+          <p className="page-hero-tag eyebrow text-accent-ink mb-5">{tag}</p>
+          <h1 className="page-hero-title font-bebas text-display text-navy overflow-hidden">
             {title.split("\n").map((line, i) => (
               <span key={i} className="block">{line}</span>
             ))}

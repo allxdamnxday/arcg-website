@@ -16,8 +16,8 @@ interface SectionHeaderProps {
 }
 
 const TITLE_SIZE: Record<TitleSize, string> = {
-  md: "text-[clamp(44px,6vw,92px)]",
-  lg: "text-[clamp(52px,7vw,104px)]",
+  md: "text-h1",
+  lg: "text-display",
 };
 
 export default function SectionHeader({
@@ -40,9 +40,9 @@ export default function SectionHeader({
     <div className={[alignCls, className].filter(Boolean).join(" ")}>
       {lineAbove && <div className={`h-px ${lineColor} w-12 mb-6 ${lineMxCls}`} />}
       {tag && (
-        <p className={`text-xs font-semibold uppercase tracking-[0.2em] mb-4 ${tone === "dark" ? "text-accent" : "text-accent-ink"}`}>{tag}</p>
+        <p className={`eyebrow mb-4 ${tone === "dark" ? "text-accent" : "text-accent-ink"}`}>{tag}</p>
       )}
-      <h2 className={`section-reveal font-bebas ${TITLE_SIZE[titleSize]} ${titleColor} leading-none`}>
+      <h2 className={`section-reveal font-bebas ${TITLE_SIZE[titleSize]} ${titleColor} text-balance`}>
         {title}
       </h2>
       {subtitle && (

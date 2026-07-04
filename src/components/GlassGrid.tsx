@@ -17,6 +17,10 @@ interface GlassGridProps {
  * Curtain-wall mullion grid — the brand's ownable motif. A pure-CSS hairline
  * lattice (no DOM nodes) that frames glass like a unitized facade. Absolutely
  * positioned; the parent must be `relative`. Decorative only (aria-hidden).
+ *
+ * Usage discipline: color accent on dark surfaces, var(--color-steel) on light;
+ * never exceed opacity 0.2 on light. Deploy sparingly — it should read as a
+ * signature accent, not a fill for empty space.
  */
 export default function GlassGrid({
   cellX = 68,
