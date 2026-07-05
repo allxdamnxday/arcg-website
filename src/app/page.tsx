@@ -1,19 +1,18 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { preload } from "react-dom";
 import Link from "next/link";
 import Image from "next/image";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { track } from "@vercel/analytics";
 import Button from "@/components/Button";
-import Magnetic from "@/components/Magnetic";
 import SectionHeader from "@/components/SectionHeader";
 import GlassGrid from "@/components/GlassGrid";
 import { EASE, STAGGER } from "@/lib/motion";
 import { services } from "@/lib/services";
 import { getFeaturedProjects, PROJECTS_LIVE } from "@/lib/projects";
+import heroImg from "@/images/hph/hero.webp";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -28,9 +27,6 @@ const STATS = [
 ];
 
 export default function Home() {
-  // Paint the (local, ~60KB) hero poster as early as possible — it's the LCP element.
-  preload("/hero-poster.webp", { as: "image", fetchPriority: "high" });
-
   const heroRef = useRef<HTMLDivElement>(null);
   const statsRef = useRef<HTMLDivElement>(null);
   const workRef = useRef<HTMLDivElement>(null);
@@ -42,15 +38,16 @@ export default function Home() {
 
     mm.add("(prefers-reduced-motion: no-preference)", () => {
       const ctx = gsap.context(() => {
-        // Hero entrance — the image clip runs parallel to the text rise (0.15s in)
-        // for a cinematic overlap rather than a tail-end reveal.
+        // Hero entrance — the full-bleed facade settles in (slow Ken-Burns scale)
+        // while the headline rises over it.
         const tl = gsap.timeline({ delay: 0.25, defaults: { ease: EASE.ui } });
-        tl.from(".hero-line", { scaleX: 0, duration: 1.0, ease: EASE.struct })
+        tl.from(".hero-bg", { scale: 1.12, duration: 1.8, ease: "power2.out" }, 0)
+          .from(".hero-scrim", { opacity: 0, duration: 1.1 }, 0.1)
+          .from(".hero-line", { scaleX: 0, duration: 1.0, ease: EASE.struct }, 0.45)
           .from(".hero-tag", { opacity: 0, y: 16, duration: 0.6 }, "-=0.55")
           .from(".hero-title span", { yPercent: 110, duration: 1.1, stagger: STAGGER.text, ease: EASE.text }, "-=0.35")
           .from(".hero-sub", { opacity: 0, y: 16, duration: 0.7 }, "-=0.65")
-          .from(".hero-btn", { opacity: 0, y: 12, duration: 0.5, stagger: STAGGER.ui }, "-=0.45")
-          .from(".hero-image", { clipPath: "inset(100% 0 0 0)", duration: 1.3, ease: EASE.struct }, 0.15);
+          .from(".hero-btn", { opacity: 0, y: 12, duration: 0.5, stagger: STAGGER.ui }, "-=0.45");
 
         // Stats counter — build the count-up tweens only when the strip enters
         // view (once), so the SSR values stay put until then and there's no
@@ -134,13 +131,13 @@ export default function Home() {
     // Hero parallax — desktop only.
     mm.add("(prefers-reduced-motion: no-preference) and (min-width: 1024px)", () => {
       const ctx = gsap.context(() => {
-        gsap.to(".hero-image video", {
-          yPercent: 12,
+        gsap.to(".hero-bg", {
+          yPercent: 10,
           ease: "none",
           scrollTrigger: { trigger: heroRef.current, start: "top top", end: "bottom top", scrub: true },
         });
-        gsap.to(".hero-title", {
-          yPercent: -14,
+        gsap.to(".hero-content", {
+          yPercent: -8,
           ease: "none",
           scrollTrigger: { trigger: heroRef.current, start: "top top", end: "bottom top", scrub: true },
         });
@@ -151,73 +148,47 @@ export default function Home() {
     return () => mm.revert();
   }, []);
 
-  // Pause the hero video offscreen (battery/CPU). Under reduced motion, keep it
-  // paused entirely — the poster stands in.
-  useEffect(() => {
-    const vid = heroRef.current?.querySelector("video");
-    if (!vid) return;
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      vid.removeAttribute("autoplay");
-      vid.pause();
-      return;
-    }
-    const io = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) vid.play().catch(() => {});
-        else vid.pause();
-      },
-      { threshold: 0 }
-    );
-    io.observe(vid);
-    return () => io.disconnect();
-  }, []);
-
   return (
     <main id="main">
-      {/* HERO */}
-      <section ref={heroRef} className="min-h-[100svh] flex items-center relative overflow-hidden bg-warm">
-        <div className="absolute top-0 left-0 w-full h-px bg-glass" />
-        <div className="grid grid-cols-1 lg:grid-cols-2 w-full min-h-[100svh]">
-          <div className="flex flex-col justify-center px-6 md:px-12 lg:px-20 pt-28 pb-14 lg:py-0">
+      {/* HERO — full-bleed real curtain-wall facade (Hollywood Park / Kali Hotel) */}
+      <section ref={heroRef} className="relative min-h-[100svh] overflow-hidden bg-navy-deep">
+        {/* Facade photo, slightly over-scanned so the scroll parallax never reveals an edge */}
+        <div className="hero-bg absolute -inset-[4%]">
+          <Image
+            src={heroImg}
+            alt="AR Contract Glazing curtain wall on the Hollywood Park high-rise"
+            fill
+            priority
+            sizes="100vw"
+            placeholder="blur"
+            className="object-cover"
+          />
+        </div>
+        {/* Scrim: darken the top for the nav and the bottom for the headline */}
+        <div className="hero-scrim absolute inset-0 pointer-events-none">
+          <div className="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-navy-deep/70 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-navy-deep via-navy-deep/40 to-transparent" />
+        </div>
+
+        <div className="hero-content relative z-10 min-h-[100svh] flex flex-col justify-end px-6 md:px-12 lg:px-20 pt-32 pb-16 md:pb-24">
+          <div className="max-w-3xl">
             <div className="hero-line h-px bg-accent w-24 mb-8 origin-left" />
-            <p className="hero-tag eyebrow text-accent-ink mb-6">
+            <p className="hero-tag eyebrow text-accent mb-6">
               Commercial Glazing Contractor
             </p>
-            <h1 className="hero-title font-bebas text-display text-navy mb-6 overflow-hidden">
+            <h1 className="hero-title font-bebas text-display text-white mb-6 overflow-hidden">
               <span className="block">We Hang</span>
               <span className="block">Glass On</span>
               <span className="block">High-Rises</span>
             </h1>
-            <p className="hero-sub text-lg text-gray-600 max-w-md leading-relaxed mb-8">
-              We install curtain wall, windows, and storefront for commercial GCs.
-              Based in Los Angeles, working nationwide.
+            <p className="hero-sub text-lg text-white/80 max-w-md leading-relaxed mb-8">
+              Curtain wall, windows, and storefront for commercial GCs. Los Angeles-based,
+              working nationwide.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
-              <Magnetic className="w-full sm:w-auto">
-                <Button href="/contact?type=bid" className="hero-btn w-full sm:w-auto" onClick={() => track("cta_request_bid")}>Request a Bid</Button>
-              </Magnetic>
-              <Magnetic className="w-full sm:w-auto">
-                <Button href="/services" variant="ghost" className="hero-btn w-full sm:w-auto">Our Services</Button>
-              </Magnetic>
+              <Button href="/contact?type=bid" variant="white" className="hero-btn w-full sm:w-auto" onClick={() => track("cta_request_bid")}>Request a Bid</Button>
+              <Button href="/services" variant="ghost-light" className="hero-btn w-full sm:w-auto">Our Services</Button>
             </div>
-          </div>
-
-          <div className="hero-image relative overflow-hidden min-h-[45vh] lg:min-h-screen" style={{ clipPath: "inset(0)" }}>
-            <video
-              autoPlay
-              muted
-              loop
-              playsInline
-              aria-hidden="true"
-              preload="metadata"
-              poster="/hero-poster.webp"
-              className="absolute inset-0 w-full h-full object-cover scale-110"
-            >
-              <source src="/hero-video-720.webm" type="video/webm" />
-              <source src="/hero-video-720.mp4" type="video/mp4" />
-            </video>
-            <div className="absolute inset-0 bg-navy/20" />
-            <GlassGrid cellX={88} cellY={150} opacity={0.3} />
           </div>
         </div>
       </section>
@@ -380,12 +351,8 @@ export default function Home() {
             Send us the drawings. We&apos;ll walk the scope and get you a bid.
           </p>
           <div className="flex flex-col sm:flex-row gap-4">
-            <Magnetic className="w-full sm:w-auto">
-              <Button href="/contact?type=bid" className="w-full sm:w-auto">Get In Touch</Button>
-            </Magnetic>
-            <Magnetic className="w-full sm:w-auto">
-              <Button href="tel:2132937298" variant="ghost" className="w-full sm:w-auto" onClick={() => track("cta_call_clicked")}>(213) 293-7298</Button>
-            </Magnetic>
+            <Button href="/contact?type=bid" className="w-full sm:w-auto">Get In Touch</Button>
+            <Button href="tel:2132937298" variant="ghost" className="w-full sm:w-auto" onClick={() => track("cta_call_clicked")}>(213) 293-7298</Button>
           </div>
         </div>
       </section>

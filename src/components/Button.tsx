@@ -1,7 +1,7 @@
 import Link from "next/link";
 import type { AnchorHTMLAttributes, ButtonHTMLAttributes, ReactNode } from "react";
 
-type Variant = "primary" | "ghost" | "white";
+type Variant = "primary" | "ghost" | "white" | "ghost-light";
 type Size = "md" | "sm";
 
 type SharedProps = {
@@ -32,6 +32,8 @@ const VARIANT: Record<Variant, string> = {
   primary: "bg-navy text-white hover:bg-steel-ink hover:shadow-lg active:bg-navy-deep focus-visible:ring-accent-ink",
   ghost: "border-2 border-navy text-navy hover:bg-navy hover:text-white active:bg-navy-deep active:text-white focus-visible:ring-accent-ink",
   white: "bg-white text-navy hover:bg-steel-ink hover:text-white hover:shadow-lg active:bg-navy focus-visible:ring-accent",
+  // Outline-white — for dark photo/hero backgrounds.
+  "ghost-light": "border-2 border-white/60 text-white hover:bg-white hover:text-navy active:bg-white/90 focus-visible:ring-accent",
 };
 
 function Spinner() {

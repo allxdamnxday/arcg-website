@@ -69,6 +69,9 @@ export default function Nav() {
   ];
 
   const isActive = (href: string) => pathname === href;
+  // At the top of the home page the nav sits over the dark full-bleed hero photo,
+  // so it flips to light (white logo/text). Everywhere else it's the opaque state.
+  const atTopHome = !scrolled && pathname === "/";
 
   return (
     <>
@@ -86,13 +89,13 @@ export default function Nav() {
             width={288}
             height={180}
             priority
-            className="h-12 w-auto"
+            className={`h-12 w-auto transition-[filter] duration-500 ${atTopHome ? "brightness-0 invert" : ""}`}
             onError={(e) => {
               (e.target as HTMLImageElement).style.display = "none";
             }}
           />
-          <span className="font-bebas text-xl tracking-wider text-navy hidden sm:block">
-            AR CONTRACT <span className="text-silver-dark">GLAZING</span>
+          <span className={`font-bebas text-xl tracking-wider hidden sm:block ${atTopHome ? "text-white" : "text-navy"}`}>
+            AR CONTRACT <span className={atTopHome ? "text-white/70" : "text-silver-dark"}>GLAZING</span>
           </span>
         </Link>
 
@@ -103,8 +106,10 @@ export default function Nav() {
               key={l.href}
               href={l.href}
               aria-current={isActive(l.href) ? "page" : undefined}
-              className={`text-sm font-medium link-underline pb-1 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-ink focus-visible:ring-offset-2 ${
-                isActive(l.href) ? "text-accent-ink" : "text-gray-800 hover:text-accent-ink"
+              className={`text-sm font-medium link-underline pb-1 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${atTopHome ? "focus-visible:ring-accent" : "focus-visible:ring-accent-ink"} ${
+                isActive(l.href)
+                  ? atTopHome ? "text-accent" : "text-accent-ink"
+                  : atTopHome ? "text-white/90 hover:text-white" : "text-gray-800 hover:text-accent-ink"
               }`}
             >
               {l.label}
@@ -112,7 +117,11 @@ export default function Nav() {
           ))}
           <Link
             href="/contact?type=bid"
-            className="text-sm font-semibold text-navy border-2 border-navy px-6 py-2.5 hover:bg-navy hover:text-white transition-all duration-200 ease-out-quart tracking-wide uppercase text-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-ink focus-visible:ring-offset-2"
+            className={`text-sm font-semibold border-2 px-6 py-2.5 transition-all duration-200 ease-out-quart tracking-wide uppercase text-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${
+              atTopHome
+                ? "text-white border-white hover:bg-white hover:text-navy focus-visible:ring-accent"
+                : "text-navy border-navy hover:bg-navy hover:text-white focus-visible:ring-accent-ink"
+            }`}
           >
             Request a Bid
           </Link>
@@ -128,17 +137,17 @@ export default function Nav() {
           aria-controls="mobile-menu"
         >
           <span
-            className={`w-6 h-0.5 bg-navy transition-all duration-300 ${
+            className={`w-6 h-0.5 transition-all duration-300 ${atTopHome && !menuOpen ? "bg-white" : "bg-navy"} ${
               menuOpen ? "rotate-45 translate-y-2" : ""
             }`}
           />
           <span
-            className={`w-6 h-0.5 bg-navy transition-all duration-300 ${
+            className={`w-6 h-0.5 transition-all duration-300 ${atTopHome && !menuOpen ? "bg-white" : "bg-navy"} ${
               menuOpen ? "opacity-0" : ""
             }`}
           />
           <span
-            className={`w-6 h-0.5 bg-navy transition-all duration-300 ${
+            className={`w-6 h-0.5 transition-all duration-300 ${atTopHome && !menuOpen ? "bg-white" : "bg-navy"} ${
               menuOpen ? "-rotate-45 -translate-y-2" : ""
             }`}
           />
