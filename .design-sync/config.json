@@ -1,0 +1,28 @@
+{
+  "pkg": "arcg-website",
+  "globalName": "ARCG",
+  "projectId": "425b02a3-a5f6-41cb-83c2-858764fdf957",
+  "shape": "package",
+  "entry": ".design-sync/entry.tsx",
+  "tsconfig": "tsconfig.json",
+  "cssEntry": ".design-sync/assets/ds.css",
+  "readmeHeader": ".design-sync/conventions.md",
+  "extraFonts": ".design-sync/assets/fonts.css",
+  "componentSrcMap": {
+    "Button": "src/components/Button.tsx",
+    "Section": "src/components/Section.tsx",
+    "SectionHeader": "src/components/SectionHeader.tsx",
+    "GlassGrid": "src/components/GlassGrid.tsx"
+  },
+  "overrides": {
+    "Section": { "cardMode": "column" },
+    "SectionHeader": { "cardMode": "column" },
+    "GlassGrid": { "cardMode": "column" }
+  },
+  "dtsPropsFor": {
+    "Button": "  /** Visual style. `white`/`ghost-light` are for dark photo/navy surfaces. */\n  variant?: \"primary\" | \"ghost\" | \"white\" | \"ghost-light\";\n  /** Control size. Both keep a 44px min touch target. */\n  size?: \"md\" | \"sm\";\n  /** Show a spinner and disable the control. */\n  loading?: boolean;\n  /** Internal path (`/contact`) renders a client-side link; `http`/`mailto`/`tel` renders an anchor; omit for a <button>. */\n  href?: string;\n  className?: string;\n  children: React.ReactNode;\n  type?: \"button\" | \"submit\" | \"reset\";\n  disabled?: boolean;\n  onClick?: React.MouseEventHandler;\n  /** Also accepts native <button>/<a> attributes (aria-*, target, rel, name, …). */",
+    "Section": "  /** Vertical rhythm: sm=strips, md=default, lg=dark statement blocks, xl=final page CTA (one per page). */\n  size?: \"sm\" | \"md\" | \"lg\" | \"xl\";\n  /** Background on the tonal ladder. `navy` is a navy→navy-deep gradient; both navy tones set white text. */\n  tone?: \"light\" | \"warm\" | \"navy\" | \"navy-deep\";\n  id?: string;\n  className?: string;\n  children: React.ReactNode;\n  /** Rendered element. Defaults to <section>. */\n  as?: \"section\" | \"div\";",
+    "SectionHeader": "  /** Kicker/eyebrow label above the title. */\n  tag?: string;\n  /** Heading text (rendered in Bebas Neue). */\n  title: string | React.ReactNode;\n  subtitle?: string;\n  /** Draw a short hairline rule above the tag. */\n  lineAbove?: boolean;\n  /** `dark` for navy/photo surfaces (white text + azure accent). */\n  tone?: \"light\" | \"dark\";\n  align?: \"left\" | \"center\";\n  /** `md` = text-h1, `lg` = text-display. */\n  titleSize?: \"md\" | \"lg\";\n  className?: string;",
+    "GlassGrid": "  /** Vertical mullion pitch in px. */\n  cellX?: number;\n  /** Horizontal mullion pitch in px. */\n  cellY?: number;\n  /** Line color (any CSS color). Defaults to the azure accent. */\n  color?: string;\n  /** Layer opacity. Never exceed 0.2 on light surfaces. */\n  opacity?: number;\n  lineWidth?: number;\n  className?: string;\n  style?: React.CSSProperties;"
+  }
+}
