@@ -1,0 +1,76 @@
+/* Tailwind v4 input for the ARCG design-system bundle.
+   Compiled to ds.css (cfg.cssEntry -> _ds_bundle.css). source(none) + explicit
+   @source keeps the utility set scoped to the four synced components and their
+   preview compositions, so the shipped stylesheet stays small and honest.
+   The @theme mirrors src/app/globals.css (the app's token source of truth),
+   plus the --font-* vars the app normally injects via next/font. */
+@import "tailwindcss" source(none);
+
+@source "../../src/components/Button.tsx";
+@source "../../src/components/Section.tsx";
+@source "../../src/components/SectionHeader.tsx";
+@source "../../src/components/GlassGrid.tsx";
+@source "../previews";
+@source "../entry.tsx";
+
+/* `static` emits every brand token to :root even when no utility uses it, so
+   the design agent has the full palette as var(--*) for its own layout glue. */
+@theme static {
+  --color-navy: #1a3a5c;
+  --color-navy-deep: #0f1f2e;
+  --color-ink: #0a1622;
+  --color-navy-raised: #1f4468;
+  --color-steel: #4a7fa5;
+  --color-steel-ink: #3c688a;
+  --color-silver: #A8B5C2;
+  --color-silver-dark: #5b6b7d;
+  --color-glass: #e8edf2;
+  --color-warm: #f8f9fa;
+  --color-accent: #2dd4e8;
+  --color-accent-ink: #0b6e80;
+
+  /* Fluid type scale (mirrors globals.css). */
+  --text-display: clamp(56px, 33.5px + 6vw, 120px);
+  --text-display--line-height: 0.9;
+  --text-display--letter-spacing: -0.02em;
+  --text-h1: clamp(40px, 25.9px + 3.76vw, 80px);
+  --text-h1--line-height: 0.95;
+  --text-h1--letter-spacing: -0.015em;
+  --text-h2: clamp(32px, 23.5px + 2.25vw, 56px);
+  --text-h2--line-height: 1;
+  --text-h2--letter-spacing: -0.01em;
+  --text-h3: clamp(24px, 20.5px + 0.94vw, 34px);
+  --text-h3--line-height: 1.05;
+  --text-h3--letter-spacing: 0em;
+
+  --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+  --ease-glass: cubic-bezier(0.76, 0, 0.24, 1);
+
+  /* Font families. In the app these arrive as next/font CSS vars on <html>;
+     here they resolve to the woff2 shipped via fonts.css. --font-sans drives
+     Tailwind's base font so body/label text renders in Inter. */
+  --font-sans: "Inter", system-ui, sans-serif;
+  --font-inter: "Inter", system-ui, sans-serif;
+  --font-bebas: "Bebas Neue", "Inter", system-ui, sans-serif;
+}
+
+@layer components {
+  /* Kicker/eyebrow label — color stays per-context. */
+  .eyebrow {
+    @apply text-xs font-semibold uppercase tracking-[0.2em];
+  }
+
+  /* Mullion-hairline link underline (mirrors globals.css). */
+  .link-underline {
+    background-image: linear-gradient(currentColor, currentColor);
+    background-size: 0% 1px;
+    background-position: 0 100%;
+    background-repeat: no-repeat;
+    transition: background-size 0.3s var(--ease-out-quart), color 0.2s var(--ease-out-quart);
+  }
+  .link-underline:hover,
+  .link-underline:focus-visible,
+  .link-underline[aria-current="page"] {
+    background-size: 100% 1px;
+  }
+}
